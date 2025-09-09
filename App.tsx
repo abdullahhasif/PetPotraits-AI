@@ -120,19 +120,29 @@ const App: React.FC = () => {
 
                         {/* Step 2: Style */}
                         <div className="bg-white p-6 rounded-3xl shadow-lg">
-                            <label htmlFor="style-select" className="text-lg font-semibold text-stone-800">Step 2: Choose a Style</label>
-                            <p className="text-sm text-stone-500 mb-4">Pick an artistic style for the portrait.</p>
-                            <select
-                                id="style-select"
-                                value={selectedStyleId}
-                                onChange={e => setSelectedStyleId(e.target.value)}
-                                className="w-full p-3 border border-stone-300 rounded-lg bg-stone-50 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition"
-                                disabled={!originalImage}
-                            >
-                                {ART_STYLES.map(style => (
-                                    <option key={style.id} value={style.id}>{style.name}</option>
-                                ))}
-                            </select>
+                            <fieldset disabled={!originalImage}>
+                                <legend className="text-lg font-semibold text-stone-800">Step 2: Choose a Style</legend>
+                                <p className="text-sm text-stone-500 mb-4">Pick an artistic style for the portrait.</p>
+                                <div className={`grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 ${!originalImage ? 'opacity-60 cursor-not-allowed' : ''}`}>
+                                    {ART_STYLES.map((style) => (
+                                        <button
+                                            key={style.id}
+                                            type="button"
+                                            onClick={() => setSelectedStyleId(style.id)}
+                                            className={`relative aspect-square rounded-xl overflow-hidden group focus:outline-none transition-all duration-200 ring-offset-2 ring-offset-white ${
+                                                selectedStyleId === style.id
+                                                    ? 'ring-4 ring-rose-500'
+                                                    : 'ring-2 ring-transparent hover:ring-rose-400 focus-visible:ring-rose-500'
+                                            }`}
+                                            aria-pressed={selectedStyleId === style.id}
+                                        >
+                                            <img src={style.image} alt={style.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                                            <span className="absolute bottom-2 left-3 right-3 text-white font-bold text-sm leading-tight text-left">{style.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </fieldset>
                         </div>
                         
                         {/* Step 3: Generate */}
