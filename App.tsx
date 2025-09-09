@@ -58,7 +58,7 @@ const App: React.FC = () => {
     };
 
     const ImageDisplay: React.FC = () => (
-        <div className="w-full aspect-square bg-slate-200 rounded-2xl flex items-center justify-center overflow-hidden relative shadow-inner">
+        <div className="w-full aspect-square bg-stone-200 rounded-3xl flex items-center justify-center overflow-hidden relative shadow-inner">
             {originalImagePreview && !generatedImage && (
                 <img src={originalImagePreview} alt="Your pet" className="w-full h-full object-cover" />
             )}
@@ -66,7 +66,7 @@ const App: React.FC = () => {
                 <img src={generatedImage} alt="Generated pawtrait" className="w-full h-full object-cover" />
             )}
             {!originalImagePreview && !generatedImage && (
-                <div className="text-center text-slate-500">
+                <div className="text-center text-stone-500">
                     <PawIcon className="h-16 w-16 mx-auto" />
                     <p className="mt-2 font-semibold">Your pet's portrait will appear here</p>
                 </div>
@@ -80,12 +80,12 @@ const App: React.FC = () => {
     );
 
     return (
-        <div className="min-h-screen bg-slate-100 font-sans text-slate-800 flex flex-col">
+        <div className="min-h-screen bg-stone-50 text-stone-800 flex flex-col">
             <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange} className="hidden" />
-            <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-20">
+            <header className="bg-stone-50/80 backdrop-blur-sm sticky top-0 z-20 border-b border-stone-200">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center">
-                    <PawIcon className="h-8 w-8 text-indigo-600 mr-3" />
-                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Pet Pawtraits AI</h1>
+                    <PawIcon className="h-8 w-8 text-rose-600 mr-3" />
+                    <h1 className="text-3xl font-bold text-stone-900 tracking-tight font-heading">Pawtrait Studio</h1>
                 </div>
             </header>
             <main className="w-full flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
@@ -93,39 +93,39 @@ const App: React.FC = () => {
                     {/* Left Column: Controls */}
                     <div className="flex flex-col space-y-6">
                         <div>
-                            <h2 className="text-2xl font-bold text-slate-900">Create Your Masterpiece</h2>
-                            <p className="text-slate-600 mt-1">Follow these simple steps to generate a unique portrait of your pet.</p>
+                            <h2 className="text-2xl font-bold text-stone-900 font-heading">Create Your Masterpiece</h2>
+                            <p className="text-stone-600 mt-1">Follow these simple steps to generate a unique portrait of your pet.</p>
                         </div>
 
                         {error && (
-                            <div className="text-center text-red-700 p-4 bg-red-100 border border-red-300 rounded-lg">
+                            <div className="text-center text-rose-800 p-4 bg-rose-100 border border-rose-200 rounded-lg">
                                 <strong>Oops!</strong><p>{error}</p>
                             </div>
                         )}
 
                         {/* Step 1: Upload */}
-                        <div className="bg-white p-6 rounded-2xl shadow-lg">
-                            <label className="text-lg font-semibold text-slate-800">Step 1: Upload a Photo</label>
-                            <p className="text-sm text-slate-500 mb-4">Choose a clear, high-quality photo of your pet.</p>
+                        <div className="bg-white p-6 rounded-3xl shadow-lg">
+                            <label className="text-lg font-semibold text-stone-800">Step 1: Upload a Photo</label>
+                            <p className="text-sm text-stone-500 mb-4">Choose a clear, high-quality photo of your pet.</p>
                             <button
                                 onClick={() => fileInputRef.current?.click()}
-                                className="w-full px-6 py-3 text-md font-semibold text-white bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center gap-2"
+                                className="w-full px-6 py-3 text-md font-semibold text-white bg-stone-800 rounded-lg shadow-md hover:bg-stone-900 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 flex items-center justify-center gap-2"
                             >
                                 <UploadIcon className="h-5 w-5" />
                                 {originalImage ? 'Change Photo' : 'Choose Photo'}
                             </button>
-                             {originalImage && <p className="text-sm text-slate-600 mt-3 text-center truncate">Selected: {originalImage.name}</p>}
+                             {originalImage && <p className="text-sm text-stone-600 mt-3 text-center truncate">Selected: {originalImage.name}</p>}
                         </div>
 
                         {/* Step 2: Style */}
-                        <div className="bg-white p-6 rounded-2xl shadow-lg">
-                            <label htmlFor="style-select" className="text-lg font-semibold text-slate-800">Step 2: Choose a Style</label>
-                            <p className="text-sm text-slate-500 mb-4">Pick an artistic style for the portrait.</p>
+                        <div className="bg-white p-6 rounded-3xl shadow-lg">
+                            <label htmlFor="style-select" className="text-lg font-semibold text-stone-800">Step 2: Choose a Style</label>
+                            <p className="text-sm text-stone-500 mb-4">Pick an artistic style for the portrait.</p>
                             <select
                                 id="style-select"
                                 value={selectedStyleId}
                                 onChange={e => setSelectedStyleId(e.target.value)}
-                                className="w-full p-3 border border-slate-300 rounded-lg bg-slate-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                                className="w-full p-3 border border-stone-300 rounded-lg bg-stone-50 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition"
                                 disabled={!originalImage}
                             >
                                 {ART_STYLES.map(style => (
@@ -135,17 +135,17 @@ const App: React.FC = () => {
                         </div>
                         
                         {/* Step 3: Generate */}
-                        <div className="flex flex-col space-y-3">
+                        <div className="flex flex-col space-y-3 pt-2">
                              <button
                                 onClick={handleGenerate}
                                 disabled={!originalImage || isLoading}
-                                className="w-full px-8 py-4 text-xl font-bold text-white bg-pink-500 rounded-xl shadow-lg hover:bg-pink-600 transition-all disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                                className="w-full px-8 py-4 text-xl font-bold text-white bg-rose-500 rounded-xl shadow-lg hover:bg-rose-600 transition-all disabled:bg-stone-400 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                             >
                                 <SparklesIcon className="h-6 w-6"/>
                                 {isLoading ? 'Generating...' : 'Generate Pawtrait'}
                             </button>
                             {(originalImage || generatedImage) && (
-                                <button onClick={resetApp} className="text-slate-500 hover:text-slate-800 font-semibold text-sm">
+                                <button onClick={resetApp} className="text-stone-500 hover:text-stone-800 font-semibold text-sm">
                                     Start Over
                                 </button>
                             )}
