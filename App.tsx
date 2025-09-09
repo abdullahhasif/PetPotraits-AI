@@ -1,9 +1,8 @@
-
 import React, { useState, useCallback, useRef } from 'react';
 import { ART_STYLES } from './constants';
 import { generatePetPortrait } from './services/geminiService';
 import Loader from './components/Loader';
-import { UploadIcon, PawIcon, SparklesIcon } from './components/icons';
+import { UploadIcon, PawIcon, SparklesIcon, DownloadIcon, ViewIcon } from './components/icons';
 
 const App: React.FC = () => {
     const [originalImage, setOriginalImage] = useState<File | null>(null);
@@ -165,8 +164,29 @@ const App: React.FC = () => {
                     </div>
 
                     {/* Right Column: Image Display */}
-                    <div className="flex flex-col items-center justify-center">
+                    <div className="flex flex-col items-center justify-start">
                         <ImageDisplay />
+                        {generatedImage && !isLoading && (
+                            <div className="mt-6 flex items-center gap-4">
+                                <a
+                                    href={generatedImage}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-stone-700 bg-white border border-stone-300 rounded-lg shadow-sm hover:bg-stone-100 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
+                                >
+                                    <ViewIcon className="h-5 w-5" />
+                                    View Full Size
+                                </a>
+                                <a
+                                    href={generatedImage}
+                                    download="pet-portrait.png"
+                                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-stone-800 rounded-lg shadow-md hover:bg-stone-900 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
+                                >
+                                    <DownloadIcon className="h-5 w-5" />
+                                    Download
+                                </a>
+                            </div>
+                        )}
                     </div>
                 </div>
             </main>
