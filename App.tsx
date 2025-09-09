@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import { ART_STYLES } from './constants';
 import { generatePetPortrait } from './services/geminiService';
 import Loader from './components/Loader';
-import { UploadIcon, PawIcon, SparklesIcon, DownloadIcon, ViewIcon } from './components/icons';
+import { UploadIcon, PawIcon, SparklesIcon, DownloadIcon, ViewIcon, ImageIcon } from './components/icons';
 import ImageViewer from './components/ImageViewer';
 
 const App: React.FC = () => {
@@ -137,9 +137,16 @@ const App: React.FC = () => {
                                             }`}
                                             aria-pressed={selectedStyleId === style.id}
                                         >
-                                            <img src={style.image} alt={style.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                                            <span className="absolute bottom-2 left-3 right-3 text-white font-bold text-sm leading-tight text-left">{style.name}</span>
+                                            <div className="absolute inset-0 bg-gradient-to-b from-stone-200 to-stone-400 transition-transform duration-300 group-hover:scale-105" />
+                                            
+                                            <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                                                <ImageIcon className="h-5 w-5 text-stone-600"/>
+                                                <span className="font-semibold text-sm text-stone-800">{style.name}</span>
+                                            </div>
+
+                                            <div className="absolute bottom-3 left-3">
+                                                <span className="text-white font-bold">{style.name}</span>
+                                            </div>
                                         </button>
                                     ))}
                                 </div>
