@@ -3,6 +3,7 @@ import { ART_STYLES } from './constants';
 import { generatePetPortrait } from './services/geminiService';
 import Loader from './components/Loader';
 import { UploadIcon, PawIcon, SparklesIcon, DownloadIcon, ViewIcon } from './components/icons';
+import ImageViewer from './components/ImageViewer';
 
 const App: React.FC = () => {
     const [originalImage, setOriginalImage] = useState<File | null>(null);
@@ -11,6 +12,7 @@ const App: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [selectedStyleId, setSelectedStyleId] = useState<string>(ART_STYLES[0].id);
+    const [isViewerOpen, setIsViewerOpen] = useState<boolean>(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,19 +166,17 @@ const App: React.FC = () => {
                     </div>
 
                     {/* Right Column: Image Display */}
-                    <div className="flex flex-col items-center justify-start">
+                    <div className="flex flex-col items-center justify-center">
                         <ImageDisplay />
                         {generatedImage && !isLoading && (
                             <div className="mt-6 flex items-center gap-4">
-                                <a
-                                    href={generatedImage}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                <button
+                                    onClick={() => setIsViewerOpen(true)}
                                     className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-stone-700 bg-white border border-stone-300 rounded-lg shadow-sm hover:bg-stone-100 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
                                 >
                                     <ViewIcon className="h-5 w-5" />
                                     View Full Size
-                                </a>
+                                </button>
                                 <a
                                     href={generatedImage}
                                     download="pet-portrait.png"
@@ -190,6 +190,9 @@ const App: React.FC = () => {
                     </div>
                 </div>
             </main>
+            {isViewerOpen && generatedImage && (
+                <ImageViewer imageUrl={generatedImage} onClose={() => setIsViewerOpen(false)} />
+            )}
         </div>
     );
 };
