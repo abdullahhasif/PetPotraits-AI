@@ -143,7 +143,7 @@ const App: React.FC = () => {
                                 className="w-full px-8 py-4 text-xl font-bold text-white bg-rose-500 rounded-xl shadow-lg hover:bg-rose-600 transition-all disabled:bg-stone-400 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                             >
                                 <SparklesIcon className="h-6 w-6"/>
-                                {isLoading ? 'Generating...' : 'Generate Pawtrait'}
+                                {isLoading ? 'Generating...' : 'Generate Portrait'}
                             </button>
                             {(originalImage || generatedImage) && (
                                 <button onClick={resetApp} className="text-stone-500 hover:text-stone-800 font-semibold text-sm">
