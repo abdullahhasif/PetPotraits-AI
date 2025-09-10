@@ -104,3 +104,25 @@ export const BorderIcon: React.FC<{ className?: string }> = ({ className }) => (
       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 8.25h7.5v7.5h-7.5z" />
     </svg>
 );
+
+export const SizeShapeIcon: React.FC<{ orientation: 'portrait' | 'landscape' | 'square', className?: string }> = ({ orientation, className }) => {
+    const dimensions = {
+        square: { width: 32, height: 32 },
+        portrait: { width: 24, height: 32 },
+        landscape: { width: 32, height: 24 },
+    };
+    const d = dimensions[orientation];
+    return (
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+            <rect 
+                x={(40 - d.width) / 2} 
+                y={(40 - d.height) / 2}
+                width={d.width} 
+                height={d.height} 
+                rx="2" 
+                stroke="currentColor" 
+                strokeWidth="2"
+            />
+        </svg>
+    );
+};

@@ -62,3 +62,21 @@ export const ART_STYLES: ArtStyle[] = [
     ],
   },
 ];
+
+export interface ProductSize {
+    id: string;
+    label: string;
+    price: string;
+    orientation: 'portrait' | 'landscape' | 'square';
+}
+
+export const SIZES: ProductSize[] = [
+    { id: '21x28', label: '21x28 cm', price: 'US$33 each', orientation: 'portrait' },
+    { id: '28x21', label: '28x21 cm', price: 'US$33 each', orientation: 'landscape' },
+    { id: '32x32', label: '32x32 cm', price: 'US$55 each', orientation: 'square' },
+    { id: '32x42', label: '32x42 cm', price: 'US$55 each', orientation: 'portrait' },
+    { id: '42x32', label: '42x32 cm', price: 'US$55 each', orientation: 'landscape' },
+    { id: '50x50', label: '50x50 cm', price: 'US$125 each', orientation: 'square' },
+    { id: '50x69', label: '50x69 cm', price: 'US$125 each', orientation: 'portrait' },
+    { id: '69x50', label: '69x50 cm', price: 'US$125 each', orientation: 'landscape' },
+];

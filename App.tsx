@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { ART_STYLES } from './constants';
+import { ART_STYLES, SIZES } from './constants';
 import StyleCard from './components/StyleCard';
 import CreationFlow from './components/CreationFlow';
 import type { ArtStyle } from './types';
-import ResultsPage, { EditingToolbar } from './components/ResultsPage';
+import type { ProductSize } from './constants';
+import ResultsPage from './components/ResultsPage';
+import EditingToolbar from './components/EditingToolbar';
+import SizeSelector from './components/SizeSelector';
 
 type View = 'home' | 'results';
 
@@ -12,6 +15,8 @@ const App: React.FC = () => {
     const [view, setView] = useState<View>('home');
     const [generatedImages, setGeneratedImages] = useState<string[] | null>(null);
     const [creationStyle, setCreationStyle] = useState<ArtStyle | null>(null);
+    const [isSizeSelectorOpen, setIsSizeSelectorOpen] = useState(false);
+    const [selectedProductSize, setSelectedProductSize] = useState<ProductSize>(SIZES[5]); // Default to 50x50
 
     const handleCreationComplete = (images: string[]) => {
         if (activeStyle) {
@@ -36,6 +41,27 @@ const App: React.FC = () => {
             // This re-opens the creation flow for the same style
             setActiveStyle(creationStyle); 
             setCreationStyle(null);
+        }
+    };
+
+    const handleSizeSelect = (size: ProductSize) => {
+        setSelectedProductSize(size);
+        setIsSizeSelectorOpen(false);
+    };
+
+    const handleToolClick = (toolId: string) => {
+        switch (toolId) {
+            case 'Size':
+                setIsSizeSelectorOpen(true);
+                break;
+            case 'Add':
+                handleUseDifferentPhoto();
+                break;
+            // Add other cases later
+            default:
+                // You can add a toast notification here for tools that are not yet implemented.
+                // For example: toast.info(`${toolId} tool coming soon!`);
+                console.log(`${toolId} tool clicked`);
         }
     };
 
@@ -67,13 +93,14 @@ const App: React.FC = () => {
                     <ResultsPage 
                         images={generatedImages}
                         style={creationStyle}
+                        selectedSize={selectedProductSize}
                     />
                 )}
             </main>
             
             {view === 'results' && (
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-center">
-                    <EditingToolbar onAdd={handleUseDifferentPhoto} />
+                    <EditingToolbar onToolClick={handleToolClick} />
                 </div>
             )}
 
@@ -86,6 +113,15 @@ const App: React.FC = () => {
                     style={activeStyle} 
                     onClose={() => setActiveStyle(null)} 
                     onCreationComplete={handleCreationComplete}
+                />
+            )}
+
+            {isSizeSelectorOpen && (
+                <SizeSelector 
+                    onClose={() => setIsSizeSelectorOpen(false)}
+                    onSelect={handleSizeSelect}
+                    // Fix: Corrected typo from selectedProductSizet to selectedProductSize
+                    initialSize={selectedProductSize}
                 />
             )}
         </div>
