@@ -2,20 +2,20 @@ import React, { useState, useRef, useEffect } from 'react';
 import type { ArtStyle } from '../types';
 import { generatePetPortraits } from '../services/geminiService';
 import Loader from './Loader';
-import { CloseIcon, ImageIcon, PlusIcon, SparklesIcon, TrashIcon } from './icons';
+import { CloseIcon, PlusIcon, TrashIcon } from './icons';
 
 interface CreationFlowProps {
   style: ArtStyle;
   onClose: () => void;
+  onCreationComplete: (images: string[]) => void;
 }
 
-type Step = 'upload' | 'loading' | 'result' | 'error';
+type Step = 'upload' | 'loading' | 'error';
 
-const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
+const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose, onCreationComplete }) => {
   const [step, setStep] = useState<Step>('upload');
   const [userImageFile, setUserImageFile] = useState<File | null>(null);
   const [userImagePreview, setUserImagePreview] = useState<string | null>(null);
-  const [generatedImages, setGeneratedImages] = useState<string[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -54,8 +54,7 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
     setStep('loading');
     try {
       const results = await generatePetPortraits(userImageFile, style.prompt);
-      setGeneratedImages(results.map(result => `data:image/png;base64,${result}`));
-      setStep('result');
+      onCreationComplete(results.map(result => `data:image/png;base64,${result}`));
     } catch (error) {
       console.error(error);
       const message = error instanceof Error ? error.message : "An unknown error occurred.";
@@ -67,7 +66,6 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
   const reset = () => {
     setUserImageFile(null);
     setUserImagePreview(null);
-    setGeneratedImages(null);
     setErrorMessage('');
     setStep('upload');
   }
@@ -129,47 +127,6 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
         <Loader />
     </div>
   );
-
-  const renderResultStep = () => {
-    if (!generatedImages) {
-      return null;
-    }
-    return (
-      <div>
-        <h2 id="modal-title" className="text-3xl font-bold font-heading text-zinc-800 text-center">Your Pet Portrait Gallery!</h2>
-        <p className="text-center mt-2 text-zinc-600">Here are four unique creations in the "{style.name}" style.</p>
-
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {generatedImages.map((image, index) => (
-            <div key={index} className="bg-black p-2 shadow-lg rounded-sm transform transition-transform hover:scale-105 hover:shadow-2xl">
-              <img 
-                src={image} 
-                alt={`Generated portrait of your pet in ${style.name} style, version ${index + 1}`} 
-                className="w-full aspect-square object-cover"
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <button
-            onClick={reset}
-            className="w-full flex items-center justify-center px-4 py-3 bg-zinc-200 text-zinc-800 font-semibold rounded-lg hover:bg-zinc-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-400 order-2 sm:order-1"
-          >
-            <ImageIcon className="w-5 h-5 mr-2" />
-            Use a Different Photo
-          </button>
-          <button
-            onClick={onClose}
-            className="w-full flex items-center justify-center px-4 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 order-1 sm:order-2"
-          >
-            <SparklesIcon className="w-5 h-5 mr-2" />
-            Pick a New Style
-          </button>
-        </div>
-      </div>
-    );
-  };
   
   const renderErrorStep = () => (
     <div className="text-center">
@@ -187,7 +144,6 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
   const STEPS_CONTENT: Record<Step, React.ReactNode> = {
     upload: renderUploadStep(),
     loading: renderLoadingStep(),
-    result: renderResultStep(),
     error: renderErrorStep(),
   };
 
@@ -200,7 +156,7 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
       aria-labelledby="modal-title"
     >
       <div
-        className={`relative bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full transition-all duration-300 ease-in-out ${step === 'result' ? 'max-w-4xl' : 'max-w-lg'}`}
+        className="relative bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-lg transition-all duration-300 ease-in-out"
         onClick={(e) => e.stopPropagation()}
       >
         {STEPS_CONTENT[step]}
