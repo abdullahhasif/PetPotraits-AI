@@ -80,3 +80,15 @@ export const SIZES: ProductSize[] = [
     { id: '50x69', label: '50x69 cm', price: 'US$125 each', orientation: 'portrait' },
     { id: '69x50', label: '69x50 cm', price: 'US$125 each', orientation: 'landscape' },
 ];
+
+export const BORDER_WIDTHS = [
+    { id: 'none', label: 'None', padding: '0' },
+    { id: 'shallow', label: 'Shallow', padding: '1.5%' },
+    { id: 'medium', label: 'Medium', padding: '3%' },
+    { id: 'deep', label: 'Deep', padding: '5%' },
+] as const;
+  
+
+export const BORDER_COLORS: string[] = [
+    '#FFFFFF', '#F9F4EC', '#F5E6E8', '#DDEBF1', '#E2ECE9', '#BFBDB2', '#D39C9D', '#8FA9C2', '#86A296'
+];

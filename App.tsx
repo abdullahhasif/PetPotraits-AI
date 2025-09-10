@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { ART_STYLES, SIZES } from './constants';
 import StyleCard from './components/StyleCard';
 import CreationFlow from './components/CreationFlow';
-import type { ArtStyle } from './types';
+import type { ArtStyle, BorderSettings } from './types';
 import type { ProductSize } from './constants';
 import ResultsPage from './components/ResultsPage';
 import EditingToolbar from './components/EditingToolbar';
 import SizeSelector from './components/SizeSelector';
+import BorderSelector from './components/BorderSelector';
 
 type View = 'home' | 'results';
 
@@ -16,7 +17,9 @@ const App: React.FC = () => {
     const [generatedImages, setGeneratedImages] = useState<string[] | null>(null);
     const [creationStyle, setCreationStyle] = useState<ArtStyle | null>(null);
     const [isSizeSelectorOpen, setIsSizeSelectorOpen] = useState(false);
+    const [isBorderSelectorOpen, setIsBorderSelectorOpen] = useState(false);
     const [selectedProductSize, setSelectedProductSize] = useState<ProductSize>(SIZES[5]); // Default to 50x50
+    const [selectedBorder, setSelectedBorder] = useState<BorderSettings>({ width: 'none', color: '#FFFFFF' });
 
     const handleCreationComplete = (images: string[]) => {
         if (activeStyle) {
@@ -49,10 +52,18 @@ const App: React.FC = () => {
         setIsSizeSelectorOpen(false);
     };
 
+    const handleBorderSelect = (border: BorderSettings) => {
+        setSelectedBorder(border);
+        setIsBorderSelectorOpen(false);
+    }
+
     const handleToolClick = (toolId: string) => {
         switch (toolId) {
             case 'Size':
                 setIsSizeSelectorOpen(true);
+                break;
+            case 'Border':
+                setIsBorderSelectorOpen(true);
                 break;
             case 'Add':
                 handleUseDifferentPhoto();
@@ -94,6 +105,7 @@ const App: React.FC = () => {
                         images={generatedImages}
                         style={creationStyle}
                         selectedSize={selectedProductSize}
+                        selectedBorder={selectedBorder}
                     />
                 )}
             </main>
@@ -120,8 +132,16 @@ const App: React.FC = () => {
                 <SizeSelector 
                     onClose={() => setIsSizeSelectorOpen(false)}
                     onSelect={handleSizeSelect}
-                    // Fix: Corrected typo from selectedProductSizet to selectedProductSize
                     initialSize={selectedProductSize}
+                />
+            )}
+
+            {isBorderSelectorOpen && (
+                <BorderSelector 
+                    onClose={() => setIsBorderSelectorOpen(false)}
+                    onSelect={handleBorderSelect}
+                    initialBorder={selectedBorder}
+                    previewImage={generatedImages?.[0]}
                 />
             )}
         </div>
