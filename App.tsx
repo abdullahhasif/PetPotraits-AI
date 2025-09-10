@@ -1,205 +1,37 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React from 'react';
 import { ART_STYLES } from './constants';
-import { generatePetPortrait } from './services/geminiService';
-import Loader from './components/Loader';
-import { UploadIcon, PawIcon, SparklesIcon, DownloadIcon, ViewIcon, ImageIcon } from './components/icons';
-import ImageViewer from './components/ImageViewer';
+import StyleCard from './components/StyleCard';
+import { MenuIcon, ChatIcon } from './components/icons';
 
 const App: React.FC = () => {
-    const [originalImage, setOriginalImage] = useState<File | null>(null);
-    const [originalImagePreview, setOriginalImagePreview] = useState<string | null>(null);
-    const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-    const [selectedStyleId, setSelectedStyleId] = useState<string>(ART_STYLES[0].id);
-    const [isViewerOpen, setIsViewerOpen] = useState<boolean>(false);
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            resetApp();
-            setOriginalImage(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setOriginalImagePreview(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const handleGenerate = useCallback(async () => {
-        if (!originalImage) return;
-
-        setIsLoading(true);
-        setError(null);
-        setGeneratedImage(null);
-
-        try {
-            const selectedStyle = ART_STYLES.find(s => s.id === selectedStyleId);
-            if (!selectedStyle) throw new Error("Please select a valid style.");
-            const result = await generatePetPortrait(originalImage, selectedStyle.prompt);
-            setGeneratedImage(`data:image/png;base64,${result}`);
-        } catch (err) {
-            console.error(err);
-            setError(err instanceof Error ? err.message : "An unknown error occurred.");
-        } finally {
-            setIsLoading(false);
-        }
-    }, [originalImage, selectedStyleId]);
-
-    const resetApp = () => {
-        setOriginalImage(null);
-        setOriginalImagePreview(null);
-        setGeneratedImage(null);
-        setError(null);
-        setIsLoading(false);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
-    };
-
-    const ImageDisplay: React.FC = () => (
-        <div className="w-full aspect-square bg-stone-200 rounded-3xl flex items-center justify-center overflow-hidden relative shadow-inner">
-            {originalImagePreview && !generatedImage && (
-                <img src={originalImagePreview} alt="Your pet" className="w-full h-full object-cover" />
-            )}
-            {generatedImage && (
-                <img src={generatedImage} alt="Generated pawtrait" className="w-full h-full object-cover" />
-            )}
-            {!originalImagePreview && !generatedImage && (
-                <div className="text-center text-stone-500">
-                    <PawIcon className="h-16 w-16 mx-auto" />
-                    <p className="mt-2 font-semibold">Your pet's portrait will appear here</p>
-                </div>
-            )}
-            {isLoading && (
-                 <div className="absolute inset-0 bg-white/80 backdrop-blur-md flex items-center justify-center z-10">
-                    <Loader />
-                </div>
-            )}
-        </div>
-    );
-
     return (
-        <div className="min-h-screen bg-stone-50 text-stone-800 flex flex-col">
-            <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange} className="hidden" />
-            <header className="bg-stone-50/80 backdrop-blur-sm sticky top-0 z-20 border-b border-stone-200">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center">
-                    <PawIcon className="h-8 w-8 text-rose-600 mr-3" />
-                    <h1 className="text-3xl font-bold text-stone-900 tracking-tight font-heading">myportraits.ai</h1>
+        <div className="min-h-screen bg-[#FDFCFB] text-zinc-800">
+            <header className="sticky top-0 bg-[#FDFCFB]/80 backdrop-blur-sm z-10">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+                    <button aria-label="Menu" className="p-2 -ml-2 text-zinc-600 hover:text-zinc-900 transition-colors">
+                        <MenuIcon className="h-6 w-6" />
+                    </button>
+                    <h1 className="text-xl font-bold text-zinc-900 tracking-tight font-heading">myportraits.ai</h1>
+                    <button aria-label="Contact" className="p-2 -mr-2 text-zinc-600 hover:text-zinc-900 transition-colors">
+                        <ChatIcon className="h-6 w-6" />
+                    </button>
                 </div>
             </header>
-            <main className="w-full flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                    {/* Left Column: Controls */}
-                    <div className="flex flex-col space-y-6">
-                        <div>
-                            <h2 className="text-2xl font-bold text-stone-900 font-heading">Create Your Masterpiece</h2>
-                            <p className="text-stone-600 mt-1">Follow these simple steps to generate a unique portrait of your pet.</p>
-                        </div>
+            <main className="container mx-auto p-4 sm:p-6 lg:p-8">
+                <div className="text-center mb-10 md:mb-16">
+                    <h2 className="text-4xl lg:text-5xl font-bold font-heading text-zinc-900">Creative Portraits</h2>
+                    <p className="mt-3 text-lg text-zinc-600 max-w-2xl mx-auto">Get inspired by what's possible with AI and turn your pet into a work of art.</p>
+                </div>
 
-                        {error && (
-                            <div className="text-center text-rose-800 p-4 bg-rose-100 border border-rose-200 rounded-lg">
-                                <strong>Oops!</strong><p>{error}</p>
-                            </div>
-                        )}
-
-                        {/* Step 1: Upload */}
-                        <div className="bg-white p-6 rounded-3xl shadow-lg">
-                            <label className="text-lg font-semibold text-stone-800">Step 1: Upload a Photo</label>
-                            <p className="text-sm text-stone-500 mb-4">Choose a clear, high-quality photo of your pet.</p>
-                            <button
-                                onClick={() => fileInputRef.current?.click()}
-                                className="w-full px-6 py-3 text-md font-semibold text-white bg-stone-800 rounded-lg shadow-md hover:bg-stone-900 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 flex items-center justify-center gap-2"
-                            >
-                                <UploadIcon className="h-5 w-5" />
-                                {originalImage ? 'Change Photo' : 'Choose Photo'}
-                            </button>
-                             {originalImage && <p className="text-sm text-stone-600 mt-3 text-center truncate">Selected: {originalImage.name}</p>}
-                        </div>
-
-                        {/* Step 2: Style */}
-                        <div className="bg-white p-6 rounded-3xl shadow-lg">
-                            <fieldset disabled={!originalImage}>
-                                <legend className="text-lg font-semibold text-stone-800">Step 2: Choose a Style</legend>
-                                <p className="text-sm text-stone-500 mb-4">Pick an artistic style for the portrait.</p>
-                                <div className={`grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 ${!originalImage ? 'opacity-60 cursor-not-allowed' : ''}`}>
-                                    {ART_STYLES.map((style) => (
-                                        <button
-                                            key={style.id}
-                                            type="button"
-                                            onClick={() => setSelectedStyleId(style.id)}
-                                            className={`relative aspect-square rounded-xl overflow-hidden group focus:outline-none transition-all duration-200 ring-offset-2 ring-offset-white ${
-                                                selectedStyleId === style.id
-                                                    ? 'ring-4 ring-rose-500'
-                                                    : 'ring-2 ring-transparent hover:ring-rose-400 focus-visible:ring-rose-500'
-                                            }`}
-                                            aria-pressed={selectedStyleId === style.id}
-                                        >
-                                            <div className="absolute inset-0 bg-gradient-to-b from-stone-200 to-stone-400 transition-transform duration-300 group-hover:scale-105" />
-                                            
-                                            <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                                                <ImageIcon className="h-5 w-5 text-stone-600"/>
-                                                <span className="font-semibold text-sm text-stone-800">{style.name}</span>
-                                            </div>
-
-                                            <div className="absolute bottom-3 left-3">
-                                                <span className="text-white font-bold">{style.name}</span>
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                            </fieldset>
-                        </div>
-                        
-                        {/* Step 3: Generate */}
-                        <div className="flex flex-col space-y-3 pt-2">
-                             <button
-                                onClick={handleGenerate}
-                                disabled={!originalImage || isLoading}
-                                className="w-full px-8 py-4 text-xl font-bold text-white bg-rose-500 rounded-xl shadow-lg hover:bg-rose-600 transition-all disabled:bg-stone-400 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-                            >
-                                <SparklesIcon className="h-6 w-6"/>
-                                {isLoading ? 'Generating...' : 'Generate Portrait'}
-                            </button>
-                            {(originalImage || generatedImage) && (
-                                <button onClick={resetApp} className="text-stone-500 hover:text-stone-800 font-semibold text-sm">
-                                    Start Over
-                                </button>
-                            )}
-                        </div>
-
-                    </div>
-
-                    {/* Right Column: Image Display */}
-                    <div className="flex flex-col items-center justify-center">
-                        <ImageDisplay />
-                        {generatedImage && !isLoading && (
-                            <div className="mt-6 flex items-center gap-4">
-                                <button
-                                    onClick={() => setIsViewerOpen(true)}
-                                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-stone-700 bg-white border border-stone-300 rounded-lg shadow-sm hover:bg-stone-100 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                                >
-                                    <ViewIcon className="h-5 w-5" />
-                                    View Full Size
-                                </button>
-                                <a
-                                    href={generatedImage}
-                                    download="pet-portrait.png"
-                                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-stone-800 rounded-lg shadow-md hover:bg-stone-900 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                                >
-                                    <DownloadIcon className="h-5 w-5" />
-                                    Download
-                                </a>
-                            </div>
-                        )}
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                    {ART_STYLES.map((style) => (
+                        <StyleCard key={style.id} style={style} />
+                    ))}
                 </div>
             </main>
-            {isViewerOpen && generatedImage && (
-                <ImageViewer imageUrl={generatedImage} onClose={() => setIsViewerOpen(false)} />
-            )}
+            <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16 text-center text-zinc-500 border-t border-zinc-200">
+                <p>&copy; {new Date().getFullYear()} myportraits.ai - All Rights Reserved.</p>
+            </footer>
         </div>
     );
 };
