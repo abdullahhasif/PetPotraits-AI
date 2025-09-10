@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ART_STYLES } from './constants';
 import StyleCard from './components/StyleCard';
+import CreationFlow from './components/CreationFlow';
+import type { ArtStyle } from './types';
 
 const App: React.FC = () => {
+    const [activeStyle, setActiveStyle] = useState<ArtStyle | null>(null);
+
     return (
         <div className="min-h-screen bg-[#FDFCFB] text-zinc-800">
             <header className="sticky top-0 bg-[#FDFCFB]/80 backdrop-blur-sm z-10">
@@ -18,13 +22,20 @@ const App: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                     {ART_STYLES.map((style) => (
-                        <StyleCard key={style.id} style={style} />
+                        <StyleCard key={style.id} style={style} onCreate={setActiveStyle} />
                     ))}
                 </div>
             </main>
             <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16 text-center text-zinc-500 border-t border-zinc-200">
                 <p>&copy; {new Date().getFullYear()} myportraits.ai - All Rights Reserved.</p>
             </footer>
+
+            {activeStyle && (
+                <CreationFlow 
+                    style={activeStyle} 
+                    onClose={() => setActiveStyle(null)} 
+                />
+            )}
         </div>
     );
 };

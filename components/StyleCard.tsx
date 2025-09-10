@@ -4,9 +4,10 @@ import { ChevronLeftIcon, ChevronRightIcon } from './icons';
 
 interface StyleCardProps {
   style: ArtStyle;
+  onCreate: (style: ArtStyle) => void;
 }
 
-const StyleCard: React.FC<StyleCardProps> = ({ style }) => {
+const StyleCard: React.FC<StyleCardProps> = ({ style, onCreate }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const timeoutRef = useRef<number | null>(null);
 
@@ -103,7 +104,9 @@ const StyleCard: React.FC<StyleCardProps> = ({ style }) => {
       </div>
       <div className="flex items-center justify-between mt-4 px-1">
         <h3 className="font-bold text-zinc-800 text-lg">{style.name}</h3>
-        <button className="px-5 py-2 text-sm font-semibold bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 hover:text-pink-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 ring-offset-[#FDFCFB]">
+        <button 
+          onClick={() => onCreate(style)}
+          className="px-5 py-2 text-sm font-semibold bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 hover:text-pink-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 ring-offset-[#FDFCFB]">
           Create
         </button>
       </div>
