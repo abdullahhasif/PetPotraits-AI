@@ -30,8 +30,13 @@ export const ART_STYLES: ArtStyle[] = [
     id: 'halloween',
     name: 'Halloween',
     prompt: 'The pet captured chest-up, face illuminated warmly by the glow of a carved jack-o-lantern placed just beside; golden-orange light casting dramatic shadows across the fur, while a blurred full moon and bats hover in the deep night sky behind. Bright, high-contrast cinematic lighting, ultra-detailed textures in fur and pumpkin surface.',
-    originalImage: SAMPLES.HALLOWEEN,
-    generatedImages: Array(4).fill(SAMPLES.HALLOWEEN),
+    originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/halloween_pet/original.png',
+    generatedImages: [
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/halloween_pet/0.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/halloween_pet/1.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/halloween_pet/2.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/halloween_pet/3.png',
+    ],
   },
   {
     id: 'nine-to-five',
