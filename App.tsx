@@ -3,7 +3,7 @@ import { ART_STYLES } from './constants';
 import StyleCard from './components/StyleCard';
 import CreationFlow from './components/CreationFlow';
 import type { ArtStyle } from './types';
-import ResultsPage from './components/ResultsPage';
+import ResultsPage, { EditingToolbar } from './components/ResultsPage';
 
 type View = 'home' | 'results';
 
@@ -22,10 +22,11 @@ const App: React.FC = () => {
         }
     };
 
-    const handlePickNewStyle = () => {
+    const handleGoHome = () => {
         setView('home');
         setGeneratedImages(null);
         setCreationStyle(null);
+        setActiveStyle(null);
     };
 
     const handleUseDifferentPhoto = () => {
@@ -39,14 +40,16 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] text-zinc-800">
+        <div className="min-h-screen bg-[#FDFCFB] text-zinc-800 flex flex-col">
             <header className="sticky top-0 bg-[#FDFCFB]/80 backdrop-blur-sm z-10">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center">
-                    <h1 className="text-xl font-bold text-zinc-900 tracking-tight font-heading">myportraits.ai</h1>
+                    <button onClick={handleGoHome} className="text-xl font-bold text-zinc-900 tracking-tight font-heading focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-md px-1">
+                        myportraits.ai
+                    </button>
                 </div>
             </header>
 
-            <main>
+            <main className="flex-grow">
                 {view === 'home' && (
                     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
                         <div className="text-center mb-10 md:mb-16">
@@ -64,13 +67,17 @@ const App: React.FC = () => {
                     <ResultsPage 
                         images={generatedImages}
                         style={creationStyle}
-                        onPickNewStyle={handlePickNewStyle}
-                        onUseDifferentPhoto={handleUseDifferentPhoto}
                     />
                 )}
             </main>
             
-            <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16 text-center text-zinc-500 border-t border-zinc-200">
+            {view === 'results' && (
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-center">
+                    <EditingToolbar onAdd={handleUseDifferentPhoto} />
+                </div>
+            )}
+
+            <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-zinc-500 border-t border-zinc-200">
                 <p>&copy; {new Date().getFullYear()} myportraits.ai - All Rights Reserved.</p>
             </footer>
 
