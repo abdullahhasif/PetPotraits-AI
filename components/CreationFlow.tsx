@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import type { ArtStyle } from '../types';
 import { generatePetPortrait } from '../services/geminiService';
 import Loader from './Loader';
-import { CloseIcon, DownloadIcon, PlusIcon, SparklesIcon } from './icons';
+import { CloseIcon, DownloadIcon, PlusIcon, SparklesIcon, TrashIcon } from './icons';
 
 interface CreationFlowProps {
   style: ArtStyle;
@@ -32,23 +32,28 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
     };
   }, [onClose]);
 
-  const handleFileSelect = (file: File) => {
-    setUserImageFile(file);
-    setUserImagePreview(URL.createObjectURL(file));
-    handleGenerate(file);
-  };
-  
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      handleFileSelect(file);
+      setUserImageFile(file);
+      setUserImagePreview(URL.createObjectURL(file));
     }
   };
 
-  const handleGenerate = async (file: File) => {
+  const handleImageDelete = () => {
+    setUserImageFile(null);
+    setUserImagePreview(null);
+    if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+    }
+  };
+
+  const handleGenerate = async () => {
+    if (!userImageFile) return;
+
     setStep('loading');
     try {
-      const result = await generatePetPortrait(file, style.prompt);
+      const result = await generatePetPortrait(userImageFile, style.prompt);
       setGeneratedImage(`data:image/png;base64,${result}`);
       setStep('result');
     } catch (error) {
@@ -70,16 +75,45 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
   const renderUploadStep = () => (
     <div className="text-center">
       <h2 id="modal-title" className="text-2xl font-bold font-heading text-zinc-800">{style.name}</h2>
-      <p className="mt-2 text-zinc-600">Upload a clear, well-lit photo of your pet for the best results.</p>
-      <button
-        onClick={() => fileInputRef.current?.click()}
-        className="mt-8 w-full h-64 border-2 border-dashed border-zinc-300 rounded-2xl flex flex-col items-center justify-center text-zinc-500 hover:border-pink-400 hover:text-pink-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-      >
-        <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center">
-            <PlusIcon className="w-8 h-8 text-pink-600" />
+      
+      {!userImagePreview ? (
+        <>
+            <p className="mt-2 text-zinc-600">Upload a clear, well-lit photo of your pet for the best results.</p>
+            <button
+                onClick={() => fileInputRef.current?.click()}
+                className="mt-8 w-full h-64 border-2 border-dashed border-zinc-300 rounded-2xl flex flex-col items-center justify-center text-zinc-500 hover:border-pink-400 hover:text-pink-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+            >
+                <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center">
+                    <PlusIcon className="w-8 h-8 text-pink-600" />
+                </div>
+                <span className="mt-4 font-semibold">Upload Pet Photo</span>
+            </button>
+        </>
+      ) : (
+        <div className="mt-6">
+            <div className="relative inline-block">
+                <img 
+                    src={userImagePreview} 
+                    alt="Your pet" 
+                    className="w-full max-w-sm mx-auto aspect-square object-cover rounded-2xl shadow-md"
+                />
+                <button 
+                    onClick={handleImageDelete}
+                    className="absolute -top-2 -right-2 h-9 w-9 bg-zinc-800/70 rounded-full flex items-center justify-center text-white hover:bg-zinc-900 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900 ring-offset-white"
+                    aria-label="Remove image"
+                >
+                    <TrashIcon className="h-5 w-5" />
+                </button>
+            </div>
+            <button
+                onClick={handleGenerate}
+                className="mt-6 w-full px-4 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+            >
+                Create
+            </button>
         </div>
-        <span className="mt-4 font-semibold">Upload Pet Photo</span>
-      </button>
+      )}
+
       <input
         type="file"
         ref={fileInputRef}
