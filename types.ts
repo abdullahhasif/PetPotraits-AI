@@ -26,3 +26,10 @@ export interface FrameStyle {
   image: string;
   style: React.CSSProperties;
 }
+
+export interface ProductSize {
+    id: string;
+    label: string;
+    price: string;
+    orientation: 'portrait' | 'landscape' | 'square';
+}

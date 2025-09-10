@@ -1,4 +1,4 @@
-import type { ArtStyle, ArtEffect, FrameStyle } from './types';
+import type { ArtStyle, ArtEffect, FrameStyle, ProductSize } from './types';
 
 export const ART_STYLES: ArtStyle[] = [
   {
@@ -62,13 +62,6 @@ export const ART_STYLES: ArtStyle[] = [
     ],
   },
 ];
-
-export interface ProductSize {
-    id: string;
-    label: string;
-    price: string;
-    orientation: 'portrait' | 'landscape' | 'square';
-}
 
 export const SIZES: ProductSize[] = [
     { id: '21x28', label: '21x28 cm', price: 'US$33 each', orientation: 'portrait' },

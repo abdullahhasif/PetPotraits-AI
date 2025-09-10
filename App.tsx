@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ART_STYLES, SIZES, EFFECTS, FRAMES } from './constants';
 import StyleCard from './components/StyleCard';
 import CreationFlow from './components/CreationFlow';
-import type { ArtStyle, BorderSettings, ArtEffect, FrameStyle } from './types';
-import type { ProductSize } from './constants';
+import type { ArtStyle, BorderSettings, ArtEffect, FrameStyle, ProductSize } from './types';
 import ResultsPage from './components/ResultsPage';
 import EditingToolbar from './components/EditingToolbar';
 import SizeSelector from './components/SizeSelector';
 import BorderSelector from './components/BorderSelector';
 import EffectSelector from './components/EffectSelector';
 import FrameSelector from './components/FrameSelector';
+import { ShoppingCartIcon } from './components/icons';
 
 type View = 'home' | 'results';
+
+const parsePrice = (priceString: string | undefined | null): number => {
+    if (!priceString) return 0;
+    const match = priceString.match(/\d+/);
+    return match ? parseInt(match[0], 10) : 0;
+};
 
 const App: React.FC = () => {
     const [activeStyle, setActiveStyle] = useState<ArtStyle | null>(null);
@@ -26,6 +32,13 @@ const App: React.FC = () => {
     const [selectedBorder, setSelectedBorder] = useState<BorderSettings>({ width: 'none', color: '#FFFFFF' });
     const [selectedEffect, setSelectedEffect] = useState<ArtEffect>(EFFECTS[0]);
     const [selectedFrame, setSelectedFrame] = useState<FrameStyle>(FRAMES[1]); // Default to Black
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        const sizePrice = parsePrice(selectedProductSize.price);
+        const framePrice = parsePrice(selectedFrame.price);
+        setTotalPrice(sizePrice + framePrice);
+    }, [selectedProductSize, selectedFrame]);
 
     const handleCreationComplete = (images: string[]) => {
         if (activeStyle) {
@@ -98,10 +111,16 @@ const App: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#FDFCFB] text-zinc-800 flex flex-col">
             <header className="sticky top-0 bg-[#FDFCFB]/80 backdrop-blur-sm z-10">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
                     <button onClick={handleGoHome} className="text-xl font-bold text-zinc-900 tracking-tight font-heading focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-md px-1">
                         myportraits.ai
                     </button>
+                    {view === 'results' && (
+                        <button className="bg-pink-600 text-white font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 ring-offset-[#FDFCFB]">
+                            <span>US${totalPrice}</span>
+                            <ShoppingCartIcon className="h-5 w-5" />
+                        </button>
+                    )}
                 </div>
             </header>
 

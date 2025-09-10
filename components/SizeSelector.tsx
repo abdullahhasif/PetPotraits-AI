@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { SIZES } from '../constants';
-import type { ProductSize } from '../constants';
+import type { ProductSize } from '../types';
 import { ChevronLeftIcon, ChevronRightIcon, SizeShapeIcon } from './icons';
 
 interface SizeSelectorProps {

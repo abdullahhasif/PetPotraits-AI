@@ -1,6 +1,5 @@
 import React from 'react';
-import type { ArtStyle, BorderSettings, ArtEffect, FrameStyle } from '../types';
-import type { ProductSize } from '../constants';
+import type { ArtStyle, BorderSettings, ArtEffect, FrameStyle, ProductSize } from '../types';
 import { BORDER_WIDTHS } from '../constants';
 
 interface ResultsPageProps {
@@ -33,7 +32,7 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ style, images, selectedSize, 
         <h2 className="text-3xl font-bold font-heading text-zinc-800">Your Pet Portrait Gallery!</h2>
         <p className="mt-2 text-zinc-600">Here are four unique creations in the "{style.name}" style.</p>
         <p className="mt-4 text-zinc-600">
-            Current selection: <span className="font-bold text-zinc-800">{selectedSize.label} ({selectedFrame.name})</span> for <span className="font-bold text-zinc-800">{selectedSize.price}</span>
+            Current selection: <span className="font-bold text-zinc-800">{selectedSize.label} ({selectedFrame.name})</span>
         </p>
       </div>
 
