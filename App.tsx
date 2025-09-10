@@ -1,20 +1,13 @@
 import React from 'react';
 import { ART_STYLES } from './constants';
 import StyleCard from './components/StyleCard';
-import { MenuIcon, ChatIcon } from './components/icons';
 
 const App: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#FDFCFB] text-zinc-800">
             <header className="sticky top-0 bg-[#FDFCFB]/80 backdrop-blur-sm z-10">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-                    <button aria-label="Menu" className="p-2 -ml-2 text-zinc-600 hover:text-zinc-900 transition-colors">
-                        <MenuIcon className="h-6 w-6" />
-                    </button>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center">
                     <h1 className="text-xl font-bold text-zinc-900 tracking-tight font-heading">myportraits.ai</h1>
-                    <button aria-label="Contact" className="p-2 -mr-2 text-zinc-600 hover:text-zinc-900 transition-colors">
-                        <ChatIcon className="h-6 w-6" />
-                    </button>
                 </div>
             </header>
             <main className="container mx-auto p-4 sm:p-6 lg:p-8">
