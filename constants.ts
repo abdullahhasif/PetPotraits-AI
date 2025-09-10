@@ -1,5 +1,4 @@
 import type { ArtStyle } from './types';
-import { SAMPLES } from './samples';
 
 export const ART_STYLES: ArtStyle[] = [
   {
@@ -54,7 +53,12 @@ export const ART_STYLES: ArtStyle[] = [
     id: 'cinematic',
     name: 'Cinematic',
     prompt: "The pet portrayed as a superhero, wearing a flowing red cape, looking heroically into the distance. The background is a dramatic, dark cityscape at night.",
-    originalImage: SAMPLES.CINEMATIC,
-    generatedImages: Array(4).fill(SAMPLES.CINEMATIC),
+    originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/cinematic/original.png',
+    generatedImages: [
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/cinematic/0.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/cinematic/1.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/cinematic/2.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/cinematic/3.png',
+    ],
   },
 ];
