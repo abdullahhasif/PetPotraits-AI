@@ -87,7 +87,7 @@ const App: React.FC = () => {
             <header className="bg-stone-50/80 backdrop-blur-sm sticky top-0 z-20 border-b border-stone-200">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-center">
                     <PawIcon className="h-8 w-8 text-rose-600 mr-3" />
-                    <h1 className="text-3xl font-bold text-stone-900 tracking-tight font-heading">PetPortraits AI</h1>
+                    <h1 className="text-3xl font-bold text-stone-900 tracking-tight font-heading">myportraits.ai</h1>
                 </div>
             </header>
             <main className="w-full flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
