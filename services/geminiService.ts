@@ -16,7 +16,7 @@ const fileToBase64 = (file: File): Promise<string> => {
   });
 };
 
-export const generatePetPortrait = async (imageFile: File, prompt: string): Promise<string> => {
+export const generatePetPortraits = async (imageFile: File, prompt: string): Promise<string[]> => {
   if (!process.env.API_KEY) {
     throw new Error("API_KEY environment variable is not set.");
   }
@@ -24,33 +24,39 @@ export const generatePetPortrait = async (imageFile: File, prompt: string): Prom
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const base64ImageData = await fileToBase64(imageFile);
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash-image-preview',
-    contents: {
-      parts: [
-        {
-          inlineData: {
-            data: base64ImageData,
-            mimeType: imageFile.type,
+  const generateSingleImage = async (): Promise<string> => {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-image-preview',
+      contents: {
+        parts: [
+          {
+            inlineData: {
+              data: base64ImageData,
+              mimeType: imageFile.type,
+            },
           },
-        },
-        {
-          text: prompt,
-        },
-      ],
-    },
-    config: {
-      responseModalities: [Modality.IMAGE, Modality.TEXT],
-    },
-  });
+          {
+            text: prompt,
+          },
+        ],
+      },
+      config: {
+        responseModalities: [Modality.IMAGE, Modality.TEXT],
+      },
+    });
 
-  if (response.candidates && response.candidates[0].content.parts) {
-    for (const part of response.candidates[0].content.parts) {
-      if (part.inlineData) {
-        return part.inlineData.data;
+    if (response.candidates && response.candidates[0].content.parts) {
+      for (const part of response.candidates[0].content.parts) {
+        if (part.inlineData) {
+          return part.inlineData.data;
+        }
       }
     }
-  }
 
-  throw new Error("The AI did not return an image. Please try a different image or style.");
+    throw new Error("The AI did not return an image. Please try again.");
+  };
+
+  const generationPromises = Array(4).fill(0).map(() => generateSingleImage());
+  
+  return await Promise.all(generationPromises);
 };

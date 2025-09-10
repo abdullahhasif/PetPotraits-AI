@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { ArtStyle } from '../types';
-import { generatePetPortrait } from '../services/geminiService';
+import { generatePetPortraits } from '../services/geminiService';
 import Loader from './Loader';
-import { CloseIcon, DownloadIcon, PlusIcon, SparklesIcon, TrashIcon } from './icons';
+import { CloseIcon, ImageIcon, PlusIcon, SparklesIcon, TrashIcon } from './icons';
 
 interface CreationFlowProps {
   style: ArtStyle;
@@ -15,7 +15,7 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
   const [step, setStep] = useState<Step>('upload');
   const [userImageFile, setUserImageFile] = useState<File | null>(null);
   const [userImagePreview, setUserImagePreview] = useState<string | null>(null);
-  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [generatedImages, setGeneratedImages] = useState<string[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -53,8 +53,8 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
 
     setStep('loading');
     try {
-      const result = await generatePetPortrait(userImageFile, style.prompt);
-      setGeneratedImage(`data:image/png;base64,${result}`);
+      const results = await generatePetPortraits(userImageFile, style.prompt);
+      setGeneratedImages(results.map(result => `data:image/png;base64,${result}`));
       setStep('result');
     } catch (error) {
       console.error(error);
@@ -67,7 +67,7 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
   const reset = () => {
     setUserImageFile(null);
     setUserImagePreview(null);
-    setGeneratedImage(null);
+    setGeneratedImages(null);
     setErrorMessage('');
     setStep('upload');
   }
@@ -130,38 +130,46 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
     </div>
   );
 
-  const renderResultStep = () => (
-    <div>
-        <h2 id="modal-title" className="text-2xl font-bold font-heading text-zinc-800 text-center">It's a masterpiece!</h2>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex flex-col items-center">
-                <p className="font-semibold text-zinc-600 mb-2">Original</p>
-                <img src={userImagePreview!} alt="Your pet" className="w-full aspect-square object-cover rounded-xl shadow-md"/>
+  const renderResultStep = () => {
+    if (!generatedImages) {
+      return null;
+    }
+    return (
+      <div>
+        <h2 id="modal-title" className="text-3xl font-bold font-heading text-zinc-800 text-center">Your Pet Portrait Gallery!</h2>
+        <p className="text-center mt-2 text-zinc-600">Here are four unique creations in the "{style.name}" style.</p>
+
+        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {generatedImages.map((image, index) => (
+            <div key={index} className="bg-black p-2 shadow-lg rounded-sm transform transition-transform hover:scale-105 hover:shadow-2xl">
+              <img 
+                src={image} 
+                alt={`Generated portrait of your pet in ${style.name} style, version ${index + 1}`} 
+                className="w-full aspect-square object-cover"
+              />
             </div>
-            <div className="flex flex-col items-center">
-                <p className="font-semibold text-pink-700 mb-2">{style.name}</p>
-                <img src={generatedImage!} alt={`Your pet in ${style.name} style`} className="w-full aspect-square object-cover rounded-xl shadow-md"/>
-            </div>
+          ))}
         </div>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <a
-                href={generatedImage!}
-                download={`myportrait_${style.id}.png`}
-                className="w-full flex items-center justify-center px-4 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-            >
-                <DownloadIcon className="w-5 h-5 mr-2" />
-                Download
-            </a>
-            <button
-                onClick={reset}
-                className="w-full flex items-center justify-center px-4 py-3 bg-zinc-200 text-zinc-800 font-semibold rounded-lg hover:bg-zinc-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-400"
-            >
-                <SparklesIcon className="w-5 h-5 mr-2" />
-                Create Another
-            </button>
+
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button
+            onClick={reset}
+            className="w-full flex items-center justify-center px-4 py-3 bg-zinc-200 text-zinc-800 font-semibold rounded-lg hover:bg-zinc-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-400 order-2 sm:order-1"
+          >
+            <ImageIcon className="w-5 h-5 mr-2" />
+            Use a Different Photo
+          </button>
+          <button
+            onClick={onClose}
+            className="w-full flex items-center justify-center px-4 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 order-1 sm:order-2"
+          >
+            <SparklesIcon className="w-5 h-5 mr-2" />
+            Pick a New Style
+          </button>
         </div>
-    </div>
-  );
+      </div>
+    );
+  };
   
   const renderErrorStep = () => (
     <div className="text-center">
@@ -192,7 +200,7 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose }) => {
       aria-labelledby="modal-title"
     >
       <div
-        className="relative bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-lg"
+        className={`relative bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full transition-all duration-300 ease-in-out ${step === 'result' ? 'max-w-4xl' : 'max-w-lg'}`}
         onClick={(e) => e.stopPropagation()}
       >
         {STEPS_CONTENT[step]}
