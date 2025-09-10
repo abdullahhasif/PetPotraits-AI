@@ -6,8 +6,13 @@ export const ART_STYLES: ArtStyle[] = [
     id: 'bath-time',
     name: 'Bath time',
     prompt: 'The pet in focus from the chest up inside a bathtub, head covered in foamy “bubble crown,” droplets clinging to the whiskers; blurred chrome fixtures and pastel tiles behind, rubber ducks floating just out of focus. Cinematic detail in bubbles and wet fur, playful and humorous.',
-    originalImage: SAMPLES.BATH_TIME,
-    generatedImages: Array(4).fill(SAMPLES.BATH_TIME),
+    originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/spa_pet/original.png',
+    generatedImages: [
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/spa_pet/0.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/spa_pet/1.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/spa_pet/2.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/spa_pet/3.png',
+    ],
   },
   {
     id: 'kitchen-tails',

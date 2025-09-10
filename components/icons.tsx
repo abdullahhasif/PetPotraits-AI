@@ -55,3 +55,15 @@ export const ChatIcon: React.FC<{ className?: string }> = ({ className }) => (
       <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193l-3.722.537a56.096 56.096 0 0 1-3.542 0l-3.722-.537A2.121 2.121 0 0 1 3 14.894V10.608c0-.97.616-1.813 1.5-2.097m16.5 0a2.121 2.121 0 0 0-1.5-2.097l-3.722-.537a56.096 56.096 0 0 0-3.542 0l-3.722.537a2.121 2.121 0 0 0-1.5 2.097m16.5 0-3.375-3.375M3.75 8.511l3.375-3.375" />
     </svg>
 );
+
+export const ChevronLeftIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+    </svg>
+);
+
+export const ChevronRightIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+    </svg>
+);

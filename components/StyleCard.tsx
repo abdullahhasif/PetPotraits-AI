@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { ArtStyle } from '../types';
+import { ChevronLeftIcon, ChevronRightIcon } from './icons';
 
 interface StyleCardProps {
   style: ArtStyle;
@@ -33,6 +34,20 @@ const StyleCard: React.FC<StyleCardProps> = ({ style }) => {
     setCurrentIndex(index);
   }
 
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prevIndex) =>
+      (prevIndex - 1 + style.generatedImages.length) % style.generatedImages.length
+    );
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prevIndex) =>
+      (prevIndex + 1) % style.generatedImages.length
+    );
+  };
+
   return (
     <div className="flex flex-col group">
       <div className="relative w-full aspect-[4/5] bg-zinc-200 rounded-2xl overflow-hidden shadow-md transition-shadow duration-300 group-hover:shadow-xl">
@@ -48,13 +63,26 @@ const StyleCard: React.FC<StyleCardProps> = ({ style }) => {
           />
         ))}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+        {style.generatedImages.length > 1 && (
+            <>
+                <button
+                    onClick={handlePrev}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 p-1.5 bg-white/40 rounded-full text-zinc-800 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/70 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white"
+                    aria-label="Previous image"
+                >
+                    <ChevronLeftIcon className="h-5 w-5" />
+                </button>
+                <button
+                    onClick={handleNext}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 p-1.5 bg-white/40 rounded-full text-zinc-800 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/70 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white"
+                    aria-label="Next image"
+                >
+                    <ChevronRightIcon className="h-5 w-5" />
+                </button>
+            </>
+        )}
 
-        <img
-          src={style.originalImage}
-          alt="Original pet"
-          className="absolute bottom-4 left-4 w-[28%] h-[28%] object-cover rounded-xl border-2 border-white/80 shadow-lg transition-transform duration-300 group-hover:scale-105"
-        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
 
         {style.generatedImages.length > 1 && (
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center space-x-1.5" role="tablist" aria-label="Image gallery controls">
