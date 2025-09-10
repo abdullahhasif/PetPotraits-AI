@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { ART_STYLES, SIZES } from './constants';
+import { ART_STYLES, SIZES, EFFECTS } from './constants';
 import StyleCard from './components/StyleCard';
 import CreationFlow from './components/CreationFlow';
-import type { ArtStyle, BorderSettings } from './types';
+import type { ArtStyle, BorderSettings, ArtEffect } from './types';
 import type { ProductSize } from './constants';
 import ResultsPage from './components/ResultsPage';
 import EditingToolbar from './components/EditingToolbar';
 import SizeSelector from './components/SizeSelector';
 import BorderSelector from './components/BorderSelector';
+import EffectSelector from './components/EffectSelector';
 
 type View = 'home' | 'results';
 
@@ -18,8 +19,10 @@ const App: React.FC = () => {
     const [creationStyle, setCreationStyle] = useState<ArtStyle | null>(null);
     const [isSizeSelectorOpen, setIsSizeSelectorOpen] = useState(false);
     const [isBorderSelectorOpen, setIsBorderSelectorOpen] = useState(false);
+    const [isEffectSelectorOpen, setIsEffectSelectorOpen] = useState(false);
     const [selectedProductSize, setSelectedProductSize] = useState<ProductSize>(SIZES[5]); // Default to 50x50
     const [selectedBorder, setSelectedBorder] = useState<BorderSettings>({ width: 'none', color: '#FFFFFF' });
+    const [selectedEffect, setSelectedEffect] = useState<ArtEffect>(EFFECTS[0]);
 
     const handleCreationComplete = (images: string[]) => {
         if (activeStyle) {
@@ -57,6 +60,11 @@ const App: React.FC = () => {
         setIsBorderSelectorOpen(false);
     }
 
+    const handleEffectSelect = (effect: ArtEffect) => {
+        setSelectedEffect(effect);
+        setIsEffectSelectorOpen(false);
+    }
+
     const handleToolClick = (toolId: string) => {
         switch (toolId) {
             case 'Size':
@@ -64,6 +72,9 @@ const App: React.FC = () => {
                 break;
             case 'Border':
                 setIsBorderSelectorOpen(true);
+                break;
+            case 'Effect':
+                setIsEffectSelectorOpen(true);
                 break;
             case 'Add':
                 handleUseDifferentPhoto();
@@ -106,6 +117,7 @@ const App: React.FC = () => {
                         style={creationStyle}
                         selectedSize={selectedProductSize}
                         selectedBorder={selectedBorder}
+                        selectedEffect={selectedEffect}
                     />
                 )}
             </main>
@@ -141,6 +153,15 @@ const App: React.FC = () => {
                     onClose={() => setIsBorderSelectorOpen(false)}
                     onSelect={handleBorderSelect}
                     initialBorder={selectedBorder}
+                    previewImage={generatedImages?.[0]}
+                />
+            )}
+
+            {isEffectSelectorOpen && (
+                <EffectSelector
+                    onClose={() => setIsEffectSelectorOpen(false)}
+                    onSelect={handleEffectSelect}
+                    initialEffect={selectedEffect}
                     previewImage={generatedImages?.[0]}
                 />
             )}

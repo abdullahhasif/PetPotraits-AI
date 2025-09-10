@@ -1,4 +1,4 @@
-import type { ArtStyle } from './types';
+import type { ArtStyle, ArtEffect } from './types';
 
 export const ART_STYLES: ArtStyle[] = [
   {
@@ -91,4 +91,12 @@ export const BORDER_WIDTHS = [
 
 export const BORDER_COLORS: string[] = [
     '#FFFFFF', '#F9F4EC', '#F5E6E8', '#DDEBF1', '#E2ECE9', '#BFBDB2', '#D39C9D', '#8FA9C2', '#86A296'
+];
+
+export const EFFECTS: ArtEffect[] = [
+    { id: 'original', name: 'Original', style: {} },
+    { id: 'silver', name: 'Silver', style: { filter: 'grayscale(100%) brightness(105%) contrast(105%)' } },
+    { id: 'noir', name: 'Noir', style: { filter: 'grayscale(100%) contrast(130%) brightness(90%)' } },
+    { id: 'vivid', name: 'Vivid', style: { filter: 'saturate(150%) contrast(110%)' } },
+    { id: 'dramatic', name: 'Dramatic', style: { filter: 'contrast(140%) sepia(20%) brightness(95%)' } },
 ];

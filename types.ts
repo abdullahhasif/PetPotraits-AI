@@ -1,3 +1,4 @@
+import type React from 'react';
 
 export interface ArtStyle {
   id: string;
@@ -10,4 +11,10 @@ export interface ArtStyle {
 export interface BorderSettings {
   width: 'none' | 'shallow' | 'medium' | 'deep';
   color: string;
+}
+
+export interface ArtEffect {
+    id: string;
+    name: string;
+    style: React.CSSProperties;
 }

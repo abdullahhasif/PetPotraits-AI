@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ArtStyle, BorderSettings } from '../types';
+import type { ArtStyle, BorderSettings, ArtEffect } from '../types';
 import type { ProductSize } from '../constants';
 import { BORDER_WIDTHS } from '../constants';
 
@@ -8,9 +8,10 @@ interface ResultsPageProps {
   images: string[];
   selectedSize: ProductSize;
   selectedBorder: BorderSettings;
+  selectedEffect: ArtEffect;
 }
 
-const ResultsPage: React.FC<ResultsPageProps> = ({ style, images, selectedSize, selectedBorder }) => {
+const ResultsPage: React.FC<ResultsPageProps> = ({ style, images, selectedSize, selectedBorder, selectedEffect }) => {
   const aspectRatios: Record<ProductSize['orientation'], string> = {
     square: 'aspect-square',
     portrait: 'aspect-[4/5]',
@@ -50,6 +51,7 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ style, images, selectedSize, 
                 src={image}
                 alt={`Generated portrait of your pet in ${style.name} style, version ${index + 1}`}
                 className="w-full h-full object-cover rounded-sm"
+                style={selectedEffect.style}
               />
             </div>
           </div>
