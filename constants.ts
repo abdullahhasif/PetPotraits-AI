@@ -18,8 +18,13 @@ export const ART_STYLES: ArtStyle[] = [
     id: 'kitchen-tails',
     name: 'Kitchen tails',
     prompt: "The pet as a chef, wearing a chef's hat and bandana, proudly presenting a pizza on a wooden board. The background is a warm, slightly blurred kitchen with cooking utensils.",
-    originalImage: SAMPLES.KITCHEN_TAILS,
-    generatedImages: Array(4).fill(SAMPLES.KITCHEN_TAILS),
+    originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/chef_pet/original.png',
+    generatedImages: [
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/chef_pet/0.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/chef_pet/1.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/chef_pet/2.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/chef_pet/3.png',
+    ],
   },
   {
     id: 'halloween',
