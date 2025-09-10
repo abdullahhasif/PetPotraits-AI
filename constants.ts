@@ -42,8 +42,13 @@ export const ART_STYLES: ArtStyle[] = [
     id: 'nine-to-five',
     name: 'Nine to five',
     prompt: "The pet holding a pen, appearing to sign a document at a wooden office desk. Sunlight streams through a window in the background.",
-    originalImage: SAMPLES.NINE_TO_FIVE,
-    generatedImages: Array(4).fill(SAMPLES.NINE_TO_FIVE),
+    originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/pet_office/original.png',
+    generatedImages: [
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/pet_office/0.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/pet_office/1.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/pet_office/2.png',
+        'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/pet_office/3.png',
+    ],
   },
   {
     id: 'cinematic',
