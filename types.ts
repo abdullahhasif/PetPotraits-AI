@@ -18,3 +18,11 @@ export interface ArtEffect {
     name: string;
     style: React.CSSProperties;
 }
+
+export interface FrameStyle {
+  id: string;
+  name: string;
+  price?: string;
+  image: string;
+  style: React.CSSProperties;
+}

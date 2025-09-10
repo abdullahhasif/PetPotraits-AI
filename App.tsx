@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { ART_STYLES, SIZES, EFFECTS } from './constants';
+import { ART_STYLES, SIZES, EFFECTS, FRAMES } from './constants';
 import StyleCard from './components/StyleCard';
 import CreationFlow from './components/CreationFlow';
-import type { ArtStyle, BorderSettings, ArtEffect } from './types';
+import type { ArtStyle, BorderSettings, ArtEffect, FrameStyle } from './types';
 import type { ProductSize } from './constants';
 import ResultsPage from './components/ResultsPage';
 import EditingToolbar from './components/EditingToolbar';
 import SizeSelector from './components/SizeSelector';
 import BorderSelector from './components/BorderSelector';
 import EffectSelector from './components/EffectSelector';
+import FrameSelector from './components/FrameSelector';
 
 type View = 'home' | 'results';
 
@@ -20,9 +21,11 @@ const App: React.FC = () => {
     const [isSizeSelectorOpen, setIsSizeSelectorOpen] = useState(false);
     const [isBorderSelectorOpen, setIsBorderSelectorOpen] = useState(false);
     const [isEffectSelectorOpen, setIsEffectSelectorOpen] = useState(false);
+    const [isFrameSelectorOpen, setIsFrameSelectorOpen] = useState(false);
     const [selectedProductSize, setSelectedProductSize] = useState<ProductSize>(SIZES[5]); // Default to 50x50
     const [selectedBorder, setSelectedBorder] = useState<BorderSettings>({ width: 'none', color: '#FFFFFF' });
     const [selectedEffect, setSelectedEffect] = useState<ArtEffect>(EFFECTS[0]);
+    const [selectedFrame, setSelectedFrame] = useState<FrameStyle>(FRAMES[1]); // Default to Black
 
     const handleCreationComplete = (images: string[]) => {
         if (activeStyle) {
@@ -65,6 +68,11 @@ const App: React.FC = () => {
         setIsEffectSelectorOpen(false);
     }
 
+    const handleFrameSelect = (frame: FrameStyle) => {
+        setSelectedFrame(frame);
+        setIsFrameSelectorOpen(false);
+    };
+
     const handleToolClick = (toolId: string) => {
         switch (toolId) {
             case 'Size':
@@ -76,13 +84,13 @@ const App: React.FC = () => {
             case 'Effect':
                 setIsEffectSelectorOpen(true);
                 break;
+            case 'Frame':
+                setIsFrameSelectorOpen(true);
+                break;
             case 'Add':
                 handleUseDifferentPhoto();
                 break;
-            // Add other cases later
             default:
-                // You can add a toast notification here for tools that are not yet implemented.
-                // For example: toast.info(`${toolId} tool coming soon!`);
                 console.log(`${toolId} tool clicked`);
         }
     };
@@ -118,6 +126,7 @@ const App: React.FC = () => {
                         selectedSize={selectedProductSize}
                         selectedBorder={selectedBorder}
                         selectedEffect={selectedEffect}
+                        selectedFrame={selectedFrame}
                     />
                 )}
             </main>
@@ -163,6 +172,14 @@ const App: React.FC = () => {
                     onSelect={handleEffectSelect}
                     initialEffect={selectedEffect}
                     previewImage={generatedImages?.[0]}
+                />
+            )}
+
+            {isFrameSelectorOpen && (
+                <FrameSelector
+                    onClose={() => setIsFrameSelectorOpen(false)}
+                    onSelect={handleFrameSelect}
+                    initialFrame={selectedFrame}
                 />
             )}
         </div>

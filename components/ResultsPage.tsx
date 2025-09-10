@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ArtStyle, BorderSettings, ArtEffect } from '../types';
+import type { ArtStyle, BorderSettings, ArtEffect, FrameStyle } from '../types';
 import type { ProductSize } from '../constants';
 import { BORDER_WIDTHS } from '../constants';
 
@@ -9,9 +9,10 @@ interface ResultsPageProps {
   selectedSize: ProductSize;
   selectedBorder: BorderSettings;
   selectedEffect: ArtEffect;
+  selectedFrame: FrameStyle;
 }
 
-const ResultsPage: React.FC<ResultsPageProps> = ({ style, images, selectedSize, selectedBorder, selectedEffect }) => {
+const ResultsPage: React.FC<ResultsPageProps> = ({ style, images, selectedSize, selectedBorder, selectedEffect, selectedFrame }) => {
   const aspectRatios: Record<ProductSize['orientation'], string> = {
     square: 'aspect-square',
     portrait: 'aspect-[4/5]',
@@ -32,13 +33,17 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ style, images, selectedSize, 
         <h2 className="text-3xl font-bold font-heading text-zinc-800">Your Pet Portrait Gallery!</h2>
         <p className="mt-2 text-zinc-600">Here are four unique creations in the "{style.name}" style.</p>
         <p className="mt-4 text-zinc-600">
-            Current selection: <span className="font-bold text-zinc-800">{selectedSize.label}</span> for <span className="font-bold text-zinc-800">{selectedSize.price}</span>
+            Current selection: <span className="font-bold text-zinc-800">{selectedSize.label} ({selectedFrame.name})</span> for <span className="font-bold text-zinc-800">{selectedSize.price}</span>
         </p>
       </div>
 
       <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
         {images.map((image, index) => (
-          <div key={index} className={`bg-black p-2 rounded-lg shadow-xl transition-all duration-300 ${aspectRatios[selectedSize.orientation]}`}>
+          <div 
+            key={index} 
+            className={`rounded-lg shadow-xl transition-all duration-300 ${aspectRatios[selectedSize.orientation]}`}
+            style={selectedFrame.style}
+          >
             <div
               className="w-full h-full"
               style={{

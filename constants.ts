@@ -1,4 +1,4 @@
-import type { ArtStyle, ArtEffect } from './types';
+import type { ArtStyle, ArtEffect, FrameStyle } from './types';
 
 export const ART_STYLES: ArtStyle[] = [
   {
@@ -99,4 +99,91 @@ export const EFFECTS: ArtEffect[] = [
     { id: 'noir', name: 'Noir', style: { filter: 'grayscale(100%) contrast(130%) brightness(90%)' } },
     { id: 'vivid', name: 'Vivid', style: { filter: 'saturate(150%) contrast(110%)' } },
     { id: 'dramatic', name: 'Dramatic', style: { filter: 'contrast(140%) sepia(20%) brightness(95%)' } },
+];
+
+export const FRAMES: FrameStyle[] = [
+    {
+      id: 'frameless',
+      name: 'Frameless',
+      image: 'https://storage.googleapis.com/aistudio-hosting/my-portraits-ai/frame-previews/frameless.png',
+      style: {
+        padding: '0',
+        backgroundColor: 'transparent',
+      },
+    },
+    {
+      id: 'black',
+      name: 'Black',
+      image: 'https://storage.googleapis.com/aistudio-hosting/my-portraits-ai/frame-previews/black.png',
+      style: {
+        padding: '12px',
+        backgroundColor: '#1D1D1D',
+        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.25)',
+      },
+    },
+    {
+      id: 'white',
+      name: 'White',
+      image: 'https://storage.googleapis.com/aistudio-hosting/my-portraits-ai/frame-previews/white.png',
+      style: {
+        padding: '12px',
+        backgroundColor: '#FFFFFF',
+        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
+      },
+    },
+    {
+      id: 'oak',
+      name: 'Oak',
+      price: '+US$3 per tile',
+      image: 'https://storage.googleapis.com/aistudio-hosting/my-portraits-ai/frame-previews/oak.png',
+      style: {
+        padding: '12px',
+        backgroundColor: '#D0B49F',
+        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.15)',
+      },
+    },
+    {
+      id: 'wide-black',
+      name: 'Wide Black',
+      price: '+US$6 per tile',
+      image: 'https://storage.googleapis.com/aistudio-hosting/my-portraits-ai/frame-previews/wide-black.png',
+      style: {
+        padding: '24px',
+        backgroundColor: '#1D1D1D',
+        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.25)',
+      },
+    },
+    {
+      id: 'wide-white',
+      name: 'Wide White',
+      price: '+US$6 per tile',
+      image: 'https://storage.googleapis.com/aistudio-hosting/my-portraits-ai/frame-previews/wide-white.png',
+      style: {
+        padding: '24px',
+        backgroundColor: '#FFFFFF',
+        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
+      },
+    },
+    {
+      id: 'wide-walnut',
+      name: 'Wide Walnut',
+      price: '+US$6 per tile',
+      image: 'https://storage.googleapis.com/aistudio-hosting/my-portraits-ai/frame-previews/wide-walnut.png',
+      style: {
+        padding: '24px',
+        backgroundColor: '#5C4033',
+        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.2)',
+      },
+    },
+    {
+      id: 'canvas',
+      name: 'Canvas',
+      price: '+US$20 per tile',
+      image: 'https://storage.googleapis.com/aistudio-hosting/my-portraits-ai/frame-previews/canvas.png',
+      style: {
+        padding: '16px',
+        backgroundColor: '#FFFFFF',
+        boxShadow: '0 8px 20px rgba(0, 0, 0, 0.15)',
+      },
+    },
 ];
