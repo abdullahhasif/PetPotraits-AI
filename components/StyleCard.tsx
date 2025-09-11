@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import type { ArtStyle } from '../types';
 import { ChevronLeftIcon, ChevronRightIcon } from './icons';
@@ -106,7 +107,7 @@ const StyleCard: React.FC<StyleCardProps> = ({ style, onCreate }) => {
         <h3 className="font-bold text-zinc-800 text-lg">{style.name}</h3>
         <button 
           onClick={() => onCreate(style)}
-          className="px-5 py-2 text-sm font-semibold bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 hover:text-pink-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 ring-offset-[#FDFCFB]">
+          className="px-5 py-2 text-sm font-semibold bg-orange-100 text-orange-700 rounded-full hover:bg-orange-200 hover:text-orange-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 ring-offset-[#FDFCFB]">
           Create
         </button>
       </div>

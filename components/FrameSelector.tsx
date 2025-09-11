@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { FRAMES } from '../constants';
 import type { FrameStyle } from '../types';
@@ -63,7 +64,7 @@ const FrameSelector: React.FC<FrameSelectorProps> = ({ onClose, onSelect, initia
           <h2 id="frame-selector-title" className="text-xl font-bold text-zinc-800">Select Frame</h2>
           <button
             onClick={() => onSelect(selectedFrame)}
-            className="text-lg font-semibold text-pink-600 hover:text-pink-700 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-md"
+            className="text-lg font-semibold text-orange-600 hover:text-orange-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-md"
           >
             Done
           </button>
@@ -75,7 +76,7 @@ const FrameSelector: React.FC<FrameSelectorProps> = ({ onClose, onSelect, initia
           >
             <button 
               onClick={() => handleScroll('left')}
-              className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-zinc-700 hover:bg-zinc-100 transition focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-zinc-700 hover:bg-zinc-100 transition focus:outline-none focus:ring-2 focus:ring-orange-500"
               aria-label="Scroll left"
               tabIndex={canScrollLeft ? 0 : -1}
             >
@@ -90,13 +91,13 @@ const FrameSelector: React.FC<FrameSelectorProps> = ({ onClose, onSelect, initia
                 <button
                   key={frame.id}
                   onClick={() => setSelectedFrame(frame)}
-                  className={`flex-shrink-0 snap-start w-32 p-2 border-2 rounded-xl flex flex-col items-center justify-start text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500
-                    ${isSelected ? 'border-pink-500 bg-pink-50' : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50'}`}
+                  className={`flex-shrink-0 snap-start w-32 p-2 border-2 rounded-xl flex flex-col items-center justify-start text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500
+                    ${isSelected ? 'border-orange-500 bg-orange-50' : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50'}`}
                 >
                   <div className="w-full aspect-square bg-zinc-100 rounded-md mb-3 overflow-hidden">
                     <img src={frame.image} alt={`${frame.name} frame preview`} className="w-full h-full object-cover" />
                   </div>
-                  <span className={`font-semibold text-sm transition-colors ${isSelected ? 'text-pink-600' : 'text-zinc-800'}`}>{frame.name}</span>
+                  <span className={`font-semibold text-sm transition-colors ${isSelected ? 'text-orange-600' : 'text-zinc-800'}`}>{frame.name}</span>
                   {frame.price && <span className="text-xs text-zinc-500 mt-1">{frame.price}</span>}
                 </button>
               )
@@ -108,7 +109,7 @@ const FrameSelector: React.FC<FrameSelectorProps> = ({ onClose, onSelect, initia
           >
             <button 
               onClick={() => handleScroll('right')}
-              className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-zinc-700 hover:bg-zinc-100 transition focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-zinc-700 hover:bg-zinc-100 transition focus:outline-none focus:ring-2 focus:ring-orange-500"
               aria-label="Scroll right"
               tabIndex={canScrollRight ? 0 : -1}
             >

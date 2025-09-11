@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { ArtEffect } from '../types';
 import { EFFECTS } from '../constants';
@@ -34,7 +35,7 @@ const EffectSelector: React.FC<EffectSelectorProps> = ({ onClose, onSelect, init
           <h2 id="effect-selector-title" className="text-xl font-bold text-zinc-800">Select Effect</h2>
           <button
             onClick={handleDone}
-            className="text-lg font-semibold text-pink-600 hover:text-pink-700 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-md"
+            className="text-lg font-semibold text-orange-600 hover:text-orange-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-md"
           >
             Done
           </button>
@@ -48,8 +49,8 @@ const EffectSelector: React.FC<EffectSelectorProps> = ({ onClose, onSelect, init
                     <button
                         key={effect.id}
                         onClick={() => setSelectedEffect(effect)}
-                        className={`p-2 border-2 rounded-xl flex flex-col items-center justify-center text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500
-                          ${isSelected ? 'border-pink-500 bg-pink-50' : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50'}`}
+                        className={`p-2 border-2 rounded-xl flex flex-col items-center justify-center text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500
+                          ${isSelected ? 'border-orange-500 bg-orange-50' : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50'}`}
                     >
                         <div className="w-full aspect-square bg-zinc-200 rounded-md mb-2 overflow-hidden">
                             <img 
@@ -59,7 +60,7 @@ const EffectSelector: React.FC<EffectSelectorProps> = ({ onClose, onSelect, init
                                 style={effect.style}
                             />
                         </div>
-                        <span className={`font-semibold text-sm transition-colors ${isSelected ? 'text-pink-600' : 'text-zinc-800'}`}>{effect.name}</span>
+                        <span className={`font-semibold text-sm transition-colors ${isSelected ? 'text-orange-600' : 'text-zinc-800'}`}>{effect.name}</span>
                     </button>
                 )
             })}

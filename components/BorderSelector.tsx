@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import type { BorderSettings } from '../types';
 import { BORDER_COLORS, BORDER_WIDTHS } from '../constants';
@@ -40,7 +41,7 @@ const BorderSelector: React.FC<BorderSelectorProps> = ({ onClose, onSelect, init
           <h2 id="border-selector-title" className="text-xl font-bold text-zinc-800">Select Border</h2>
           <button
             onClick={handleDone}
-            className="text-lg font-semibold text-pink-600 hover:text-pink-700 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-md"
+            className="text-lg font-semibold text-orange-600 hover:text-orange-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-md"
           >
             Done
           </button>
@@ -56,8 +57,8 @@ const BorderSelector: React.FC<BorderSelectorProps> = ({ onClose, onSelect, init
                     <button
                         key={width.id}
                         onClick={() => setSelectedWidth(width.id)}
-                        className={`p-2 border-2 rounded-xl flex flex-col items-center justify-center text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500
-                          ${isSelected ? 'border-pink-500 bg-pink-50' : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50'}`}
+                        className={`p-2 border-2 rounded-xl flex flex-col items-center justify-center text-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500
+                          ${isSelected ? 'border-orange-500 bg-orange-50' : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50'}`}
                     >
                         <div 
                             className="w-full aspect-square bg-zinc-200 rounded-md mb-2 overflow-hidden transition-all"
@@ -72,7 +73,7 @@ const BorderSelector: React.FC<BorderSelectorProps> = ({ onClose, onSelect, init
                                 className="w-full h-full object-cover rounded-sm"
                             />
                         </div>
-                        <span className={`font-semibold text-sm transition-colors ${isSelected ? 'text-pink-600' : 'text-zinc-800'}`}>{width.label}</span>
+                        <span className={`font-semibold text-sm transition-colors ${isSelected ? 'text-orange-600' : 'text-zinc-800'}`}>{width.label}</span>
                     </button>
                 )
             })}
@@ -83,8 +84,8 @@ const BorderSelector: React.FC<BorderSelectorProps> = ({ onClose, onSelect, init
                 <button
                     key={color}
                     onClick={() => setSelectedColor(color)}
-                    className="w-8 h-8 rounded-full border-2 border-transparent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-                    style={{ backgroundColor: color, boxShadow: selectedColor.toLowerCase() === color.toLowerCase() ? `0 0 0 2px #EC4899` : `0 0 0 1px rgba(0,0,0,0.1)`}}
+                    className="w-8 h-8 rounded-full border-2 border-transparent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                    style={{ backgroundColor: color, boxShadow: selectedColor.toLowerCase() === color.toLowerCase() ? `0 0 0 2px #F97316` : `0 0 0 1px rgba(0,0,0,0.1)`}}
                     aria-label={`Select color ${color}`}
                     aria-pressed={selectedColor.toLowerCase() === color.toLowerCase()}
                 />

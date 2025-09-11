@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import type { ArtStyle } from '../types';
 import { generatePetPortraits } from '../services/geminiService';
@@ -79,10 +80,10 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose, onCreationC
             <p className="mt-2 text-zinc-600">Upload a clear, well-lit photo of your pet for the best results.</p>
             <button
                 onClick={() => fileInputRef.current?.click()}
-                className="mt-8 w-full h-64 border-2 border-dashed border-zinc-300 rounded-2xl flex flex-col items-center justify-center text-zinc-500 hover:border-pink-400 hover:text-pink-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                className="mt-8 w-full h-64 border-2 border-dashed border-zinc-300 rounded-2xl flex flex-col items-center justify-center text-zinc-500 hover:border-orange-400 hover:text-orange-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             >
-                <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center">
-                    <PlusIcon className="w-8 h-8 text-pink-600" />
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
+                    <PlusIcon className="w-8 h-8 text-orange-600" />
                 </div>
                 <span className="mt-4 font-semibold">Upload Pet Photo</span>
             </button>
@@ -105,7 +106,7 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose, onCreationC
             </div>
             <button
                 onClick={handleGenerate}
-                className="mt-6 w-full px-4 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                className="mt-6 w-full px-4 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             >
                 Create
             </button>

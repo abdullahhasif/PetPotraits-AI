@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ART_STYLES, SIZES, EFFECTS, FRAMES } from './constants';
 import StyleCard from './components/StyleCard';
@@ -112,11 +113,11 @@ const App: React.FC = () => {
         <div className="min-h-screen bg-[#FDFCFB] text-zinc-800 flex flex-col">
             <header className="sticky top-0 bg-[#FDFCFB]/80 backdrop-blur-sm z-10">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-                    <button onClick={handleGoHome} className="text-xl font-bold text-zinc-900 tracking-tight font-heading focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-md px-1">
+                    <button onClick={handleGoHome} className="text-xl font-bold text-zinc-900 tracking-tight font-heading focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-md px-1">
                         myportraits.ai
                     </button>
                     {view === 'results' && (
-                        <button className="bg-pink-600 text-white font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-pink-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 ring-offset-[#FDFCFB]">
+                        <button className="bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-orange-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 ring-offset-[#FDFCFB]">
                             <span>US${totalPrice}</span>
                             <ShoppingCartIcon className="h-5 w-5" />
                         </button>
