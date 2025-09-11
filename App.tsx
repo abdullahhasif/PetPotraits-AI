@@ -42,6 +42,8 @@ const App: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [isAddToCartConfirmOpen, setIsAddToCartConfirmOpen] = useState(false);
+    const [pendingCartImage, setPendingCartImage] = useState<string | null>(null);
     const menuRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -134,14 +136,19 @@ const App: React.FC = () => {
         return sizePrice + framePrice;
     };
 
-    const handleAddToCart = (image: string) => {
-        if (!creationStyle) return;
-
+    const handleRequestAddToCart = (image: string) => {
+        setPendingCartImage(image);
+        setIsAddToCartConfirmOpen(true);
+    };
+    
+    const handleConfirmAddToCart = () => {
+        if (!pendingCartImage || !creationStyle) return;
+    
         const itemPrice = calculateCurrentPrice();
-
+    
         const newItem: CartItem = {
             id: `${Date.now()}-${Math.random()}`,
-            image,
+            image: pendingCartImage,
             styleName: creationStyle.name,
             size: selectedProductSize,
             frame: selectedFrame,
@@ -151,8 +158,16 @@ const App: React.FC = () => {
         };
         setCartItems(prevItems => [...prevItems, newItem]);
         
+        setIsAddToCartConfirmOpen(false);
+        setPendingCartImage(null);
+    
         setToastMessage('Added to your cart!');
         setTimeout(() => setToastMessage(null), 3000);
+    };
+
+    const handleCancelAddToCart = () => {
+        setIsAddToCartConfirmOpen(false);
+        setPendingCartImage(null);
     };
 
     const handleRemoveFromCart = (itemId: string) => {
@@ -225,7 +240,7 @@ const App: React.FC = () => {
                         selectedBorder={selectedBorder}
                         selectedEffect={selectedEffect}
                         selectedFrame={selectedFrame}
-                        onAddToCart={handleAddToCart}
+                        onAddToCart={handleRequestAddToCart}
                     />
                 )}
             </main>
@@ -299,6 +314,16 @@ const App: React.FC = () => {
                     onConfirm={handleConfirmStartOver}
                     onCancel={() => setIsConfirmModalOpen(false)}
                     confirmText="Start Over"
+                />
+            )}
+
+            {isAddToCartConfirmOpen && (
+                <ConfirmationModal
+                    title="Add Portrait to Cart?"
+                    message="This will add the selected portrait with your current customizations (size, frame, etc.) to your shopping cart."
+                    onConfirm={handleConfirmAddToCart}
+                    onCancel={handleCancelAddToCart}
+                    confirmText="Add to Cart"
                 />
             )}
         </div>
