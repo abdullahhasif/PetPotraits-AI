@@ -33,3 +33,14 @@ export interface ProductSize {
     price: string;
     orientation: 'portrait' | 'landscape' | 'square';
 }
+
+export interface CartItem {
+  id:string;
+  image: string;
+  styleName: string;
+  size: ProductSize;
+  frame: FrameStyle;
+  border: BorderSettings;
+  effect: ArtEffect;
+  price: number;
+}

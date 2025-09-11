@@ -1,16 +1,17 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ART_STYLES, SIZES, EFFECTS, FRAMES } from './constants';
 import StyleCard from './components/StyleCard';
 import CreationFlow from './components/CreationFlow';
-import type { ArtStyle, BorderSettings, ArtEffect, FrameStyle, ProductSize } from './types';
+import type { ArtStyle, BorderSettings, ArtEffect, FrameStyle, ProductSize, CartItem } from './types';
 import ResultsPage from './components/ResultsPage';
 import EditingToolbar from './components/EditingToolbar';
 import SizeSelector from './components/SizeSelector';
 import BorderSelector from './components/BorderSelector';
 import EffectSelector from './components/EffectSelector';
 import FrameSelector from './components/FrameSelector';
-import { ShoppingCartIcon } from './components/icons';
+import Cart from './components/Cart';
+import { MenuIcon, ShoppingCartIcon } from './components/icons';
 
 type View = 'home' | 'results';
 
@@ -33,13 +34,22 @@ const App: React.FC = () => {
     const [selectedBorder, setSelectedBorder] = useState<BorderSettings>({ width: 'none', color: '#FFFFFF' });
     const [selectedEffect, setSelectedEffect] = useState<ArtEffect>(EFFECTS[0]);
     const [selectedFrame, setSelectedFrame] = useState<FrameStyle>(FRAMES[1]); // Default to Black
-    const [totalPrice, setTotalPrice] = useState(0);
+    
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [isCartOpen, setIsCartOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const sizePrice = parsePrice(selectedProductSize.price);
-        const framePrice = parsePrice(selectedFrame.price);
-        setTotalPrice(sizePrice + framePrice);
-    }, [selectedProductSize, selectedFrame]);
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsMenuOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
 
     const handleCreationComplete = (images: string[]) => {
         if (activeStyle) {
@@ -109,19 +119,69 @@ const App: React.FC = () => {
         }
     };
 
+    const handleAddToCart = (image: string) => {
+        if (!creationStyle) return;
+
+        const sizePrice = parsePrice(selectedProductSize.price);
+        const framePrice = parsePrice(selectedFrame.price);
+        const itemPrice = sizePrice + framePrice;
+
+        const newItem: CartItem = {
+            id: `${Date.now()}-${Math.random()}`,
+            image,
+            styleName: creationStyle.name,
+            size: selectedProductSize,
+            frame: selectedFrame,
+            border: selectedBorder,
+            effect: selectedEffect,
+            price: itemPrice,
+        };
+        setCartItems(prevItems => [...prevItems, newItem]);
+    };
+
+    const handleRemoveFromCart = (itemId: string) => {
+        setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
+    };
+
     return (
         <div className="min-h-screen bg-[#FDFCFB] text-zinc-800 flex flex-col">
-            <header className="sticky top-0 bg-[#FDFCFB]/80 backdrop-blur-sm z-10">
+            <header className="sticky top-0 bg-[#FDFCFB]/80 backdrop-blur-sm z-20">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
                     <button onClick={handleGoHome} className="text-xl font-bold text-zinc-900 tracking-tight font-heading focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-md px-1">
                         myportraits.ai
                     </button>
-                    {view === 'results' && (
-                        <button className="bg-orange-600 text-white font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-orange-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 ring-offset-[#FDFCFB]">
-                            <span>US${totalPrice}</span>
-                            <ShoppingCartIcon className="h-5 w-5" />
+                    
+                    <div className="relative" ref={menuRef}>
+                        <button 
+                            onClick={() => setIsMenuOpen(prev => !prev)}
+                            className="p-2 rounded-full hover:bg-zinc-100 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            aria-label="Open menu"
+                            aria-haspopup="true"
+                            aria-expanded={isMenuOpen}
+                        >
+                            <MenuIcon className="h-6 w-6 text-zinc-700" />
                         </button>
-                    )}
+                        {isMenuOpen && (
+                             <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-30">
+                                <div className="py-2">
+                                    <button 
+                                        onClick={() => { setIsMenuOpen(false); setIsCartOpen(true); }}
+                                        className="w-full text-left px-4 py-2.5 text-sm text-zinc-700 hover:bg-zinc-100 flex items-center justify-between transition-colors"
+                                    >
+                                        <span className="font-semibold">My Cart</span>
+                                        <div className="relative">
+                                            <ShoppingCartIcon className="h-5 w-5 text-zinc-600" />
+                                            {cartItems.length > 0 && (
+                                                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-orange-600 text-xs font-bold text-white">
+                                                    {cartItems.length}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </header>
 
@@ -147,6 +207,7 @@ const App: React.FC = () => {
                         selectedBorder={selectedBorder}
                         selectedEffect={selectedEffect}
                         selectedFrame={selectedFrame}
+                        onAddToCart={handleAddToCart}
                     />
                 )}
             </main>
@@ -166,6 +227,14 @@ const App: React.FC = () => {
                     style={activeStyle} 
                     onClose={() => setActiveStyle(null)} 
                     onCreationComplete={handleCreationComplete}
+                />
+            )}
+
+            {isCartOpen && (
+                <Cart 
+                    items={cartItems}
+                    onClose={() => setIsCartOpen(false)}
+                    onRemoveItem={handleRemoveFromCart}
                 />
             )}
 
