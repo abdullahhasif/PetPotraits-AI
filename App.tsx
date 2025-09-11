@@ -40,6 +40,8 @@ const App: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
+    const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -151,36 +153,47 @@ const App: React.FC = () => {
                         myportraits.ai
                     </button>
                     
-                    <div className="relative" ref={menuRef}>
-                        <button 
-                            onClick={() => setIsMenuOpen(prev => !prev)}
-                            className="p-2 rounded-full hover:bg-zinc-100 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
-                            aria-label="Open menu"
-                            aria-haspopup="true"
-                            aria-expanded={isMenuOpen}
-                        >
-                            <MenuIcon className="h-6 w-6 text-zinc-700" />
-                        </button>
-                        {isMenuOpen && (
-                             <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-30">
-                                <div className="py-2">
-                                    <button 
-                                        onClick={() => { setIsMenuOpen(false); setIsCartOpen(true); }}
-                                        className="w-full text-left px-4 py-2.5 text-sm text-zinc-700 hover:bg-zinc-100 flex items-center justify-between transition-colors"
-                                    >
-                                        <span className="font-semibold">My Cart</span>
-                                        <div className="relative">
-                                            <ShoppingCartIcon className="h-5 w-5 text-zinc-600" />
-                                            {cartItems.length > 0 && (
-                                                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-orange-600 text-xs font-bold text-white">
-                                                    {cartItems.length}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
+                    <div className="flex items-center gap-2">
+                        {view === 'results' && (
+                            <button
+                                onClick={() => setIsCartOpen(true)}
+                                className="px-4 py-2 text-sm font-semibold bg-orange-100 text-orange-700 rounded-full hover:bg-orange-200 hover:text-orange-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 ring-offset-[#FDFCFB]"
+                                aria-label={`View cart, total price US$${totalPrice}`}
+                            >
+                                US${totalPrice}
+                            </button>
                         )}
+                        <div className="relative" ref={menuRef}>
+                            <button 
+                                onClick={() => setIsMenuOpen(prev => !prev)}
+                                className="p-2 rounded-full hover:bg-zinc-100 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                aria-label="Open menu"
+                                aria-haspopup="true"
+                                aria-expanded={isMenuOpen}
+                            >
+                                <MenuIcon className="h-6 w-6 text-zinc-700" />
+                            </button>
+                            {isMenuOpen && (
+                                 <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-30">
+                                    <div className="py-2">
+                                        <button 
+                                            onClick={() => { setIsMenuOpen(false); setIsCartOpen(true); }}
+                                            className="w-full text-left px-4 py-2.5 text-sm text-zinc-700 hover:bg-zinc-100 flex items-center justify-between transition-colors"
+                                        >
+                                            <span className="font-semibold">My Cart</span>
+                                            <div className="relative">
+                                                <ShoppingCartIcon className="h-5 w-5 text-zinc-600" />
+                                                {cartItems.length > 0 && (
+                                                    <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-orange-600 text-xs font-bold text-white">
+                                                        {cartItems.length}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </header>
