@@ -13,7 +13,7 @@ import FrameSelector from './components/FrameSelector';
 import Cart from './components/Cart';
 import Toast from './components/Toast';
 import ConfirmationModal from './components/ConfirmationModal';
-import { MenuIcon, ShoppingCartIcon } from './components/icons';
+import { MenuIcon, ShoppingCartIcon, ExclamationTriangleIcon } from './components/icons';
 
 type View = 'home' | 'results';
 
@@ -314,6 +314,7 @@ const App: React.FC = () => {
                     onConfirm={handleConfirmStartOver}
                     onCancel={() => setIsConfirmModalOpen(false)}
                     confirmText="Start Over"
+                    icon={<ExclamationTriangleIcon className="h-7 w-7 text-orange-600" />}
                 />
             )}
 
@@ -324,6 +325,7 @@ const App: React.FC = () => {
                     onConfirm={handleConfirmAddToCart}
                     onCancel={handleCancelAddToCart}
                     confirmText="Add to Cart"
+                    icon={<ShoppingCartIcon className="h-7 w-7 text-orange-600" />}
                 />
             )}
         </div>

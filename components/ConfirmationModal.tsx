@@ -1,6 +1,5 @@
 
-import React, { useEffect } from 'react';
-import { ExclamationTriangleIcon } from './icons';
+import React, { useEffect, ReactNode } from 'react';
 
 interface ConfirmationModalProps {
   title: string;
@@ -9,9 +8,10 @@ interface ConfirmationModalProps {
   onCancel: () => void;
   confirmText?: string;
   cancelText?: string;
+  icon?: ReactNode;
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, message, onConfirm, onCancel, confirmText = 'Confirm', cancelText = 'Cancel' }) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, message, onConfirm, onCancel, confirmText = 'Confirm', cancelText = 'Cancel', icon }) => {
     useEffect(() => {
         const handleEsc = (event: KeyboardEvent) => {
           if (event.key === 'Escape') {
@@ -35,35 +35,39 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, message, o
       aria-describedby="modal-description"
     >
       <div
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md"
+        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6 text-center sm:text-left sm:flex sm:items-start">
-            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-100 sm:mx-0 sm:h-10 sm:w-10">
-                <ExclamationTriangleIcon className="h-6 w-6 text-orange-600" aria-hidden="true" />
-            </div>
-            <div className="mt-3 text-center sm:ml-4 sm:mt-0">
-                <h3 className="text-lg font-semibold leading-6 text-gray-900" id="modal-title">{title}</h3>
-                <div className="mt-2">
-                    <p className="text-sm text-gray-500" id="modal-description">{message}</p>
+        <div className="p-8 text-center">
+            {icon && (
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-orange-100 mb-5">
+                    {icon}
                 </div>
+            )}
+            <h3 className="text-xl font-bold font-heading text-zinc-900" id="modal-title">
+                {title}
+            </h3>
+            <div className="mt-3">
+                <p className="text-md text-zinc-600" id="modal-description">
+                    {message}
+                </p>
             </div>
         </div>
         
-        <div className="bg-gray-50 px-6 py-4 rounded-b-2xl sm:flex sm:flex-row-reverse">
+        <div className="px-6 pb-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-center">
           <button
             type="button"
-            className="inline-flex w-full justify-center rounded-md bg-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-700 sm:ml-3 sm:w-auto"
-            onClick={onConfirm}
-          >
-            {confirmText}
-          </button>
-          <button
-            type="button"
-            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+            className="w-full justify-center rounded-lg px-6 py-3 text-base font-semibold text-zinc-800 shadow-sm ring-1 ring-inset ring-zinc-300 hover:bg-zinc-50 transition-colors"
             onClick={onCancel}
           >
             {cancelText}
+          </button>
+          <button
+            type="button"
+            className="w-full justify-center rounded-lg bg-orange-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-orange-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            onClick={onConfirm}
+          >
+            {confirmText}
           </button>
         </div>
       </div>
