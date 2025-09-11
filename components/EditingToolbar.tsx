@@ -4,9 +4,10 @@ import { FrameIcon, SizeIcon, EffectIcon, BorderIcon, PlusIcon } from './icons';
 
 interface EditingToolbarProps {
   onToolClick: (toolId: string) => void;
+  currentPrice: number;
 }
 
-const EditingToolbar: React.FC<EditingToolbarProps> = ({ onToolClick }) => {
+const EditingToolbar: React.FC<EditingToolbarProps> = ({ onToolClick, currentPrice }) => {
     const tools = [
         { id: 'Frame', name: 'Frame', icon: FrameIcon },
         { id: 'Size', name: 'Size', icon: SizeIcon },
@@ -16,7 +17,14 @@ const EditingToolbar: React.FC<EditingToolbarProps> = ({ onToolClick }) => {
 
     return (
         <div className="bg-white rounded-2xl shadow-lg p-2 flex items-center space-x-2" role="toolbar" aria-label="Image editing tools">
-            <div className="flex items-center gap-2 pr-2">
+            <div className="px-4 py-1 text-center">
+                <span className="text-zinc-500 text-xs font-semibold uppercase tracking-wider">Price</span>
+                <p className="font-bold text-xl text-zinc-800">US${currentPrice}</p>
+            </div>
+            
+            <div className="w-px h-10 bg-zinc-200" aria-hidden="true"></div>
+            
+            <div className="flex items-center gap-2 pl-2">
                 {tools.map((tool) => (
                     <button 
                         key={tool.id} 

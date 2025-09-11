@@ -11,6 +11,8 @@ import BorderSelector from './components/BorderSelector';
 import EffectSelector from './components/EffectSelector';
 import FrameSelector from './components/FrameSelector';
 import Cart from './components/Cart';
+import Toast from './components/Toast';
+import ConfirmationModal from './components/ConfirmationModal';
 import { MenuIcon, ShoppingCartIcon } from './components/icons';
 
 type View = 'home' | 'results';
@@ -38,9 +40,9 @@ const App: React.FC = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [toastMessage, setToastMessage] = useState<string | null>(null);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-
-    const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -79,6 +81,11 @@ const App: React.FC = () => {
         }
     };
 
+    const handleConfirmStartOver = () => {
+        handleUseDifferentPhoto();
+        setIsConfirmModalOpen(false);
+    };
+
     const handleSizeSelect = (size: ProductSize) => {
         setSelectedProductSize(size);
         setIsSizeSelectorOpen(false);
@@ -114,19 +121,23 @@ const App: React.FC = () => {
                 setIsFrameSelectorOpen(true);
                 break;
             case 'Add':
-                handleUseDifferentPhoto();
+                setIsConfirmModalOpen(true);
                 break;
             default:
                 console.log(`${toolId} tool clicked`);
         }
     };
 
+    const calculateCurrentPrice = () => {
+        const sizePrice = parsePrice(selectedProductSize.price);
+        const framePrice = parsePrice(selectedFrame.price);
+        return sizePrice + framePrice;
+    };
+
     const handleAddToCart = (image: string) => {
         if (!creationStyle) return;
 
-        const sizePrice = parsePrice(selectedProductSize.price);
-        const framePrice = parsePrice(selectedFrame.price);
-        const itemPrice = sizePrice + framePrice;
+        const itemPrice = calculateCurrentPrice();
 
         const newItem: CartItem = {
             id: `${Date.now()}-${Math.random()}`,
@@ -139,6 +150,9 @@ const App: React.FC = () => {
             price: itemPrice,
         };
         setCartItems(prevItems => [...prevItems, newItem]);
+        
+        setToastMessage('Added to your cart!');
+        setTimeout(() => setToastMessage(null), 3000);
     };
 
     const handleRemoveFromCart = (itemId: string) => {
@@ -154,15 +168,6 @@ const App: React.FC = () => {
                     </button>
                     
                     <div className="flex items-center gap-2">
-                        {view === 'results' && (
-                            <button
-                                onClick={() => setIsCartOpen(true)}
-                                className="px-4 py-2 text-sm font-semibold bg-orange-100 text-orange-700 rounded-full hover:bg-orange-200 hover:text-orange-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 ring-offset-[#FDFCFB]"
-                                aria-label={`View cart, total price US$${totalPrice}`}
-                            >
-                                US${totalPrice}
-                            </button>
-                        )}
                         <div className="relative" ref={menuRef}>
                             <button 
                                 onClick={() => setIsMenuOpen(prev => !prev)}
@@ -227,7 +232,7 @@ const App: React.FC = () => {
             
             {view === 'results' && (
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-center">
-                    <EditingToolbar onToolClick={handleToolClick} />
+                    <EditingToolbar onToolClick={handleToolClick} currentPrice={calculateCurrentPrice()} />
                 </div>
             )}
 
@@ -282,6 +287,18 @@ const App: React.FC = () => {
                     onClose={() => setIsFrameSelectorOpen(false)}
                     onSelect={handleFrameSelect}
                     initialFrame={selectedFrame}
+                />
+            )}
+
+            {toastMessage && <Toast message={toastMessage} />}
+
+            {isConfirmModalOpen && (
+                <ConfirmationModal
+                    title="Start with a new photo?"
+                    message="Your current generated portraits will be lost. Are you sure you want to continue?"
+                    onConfirm={handleConfirmStartOver}
+                    onCancel={() => setIsConfirmModalOpen(false)}
+                    confirmText="Start Over"
                 />
             )}
         </div>
