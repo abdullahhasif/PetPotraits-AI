@@ -51,7 +51,11 @@ A pet framed chest-up, body wrapped in frayed white mummy bandages but face left
   {
     id: 'nine-to-five',
     name: 'Nine to five',
-    prompt: "The pet holding a pen, appearing to sign a document at a wooden office desk. Sunlight streams through a window in the background.",
+    prompt: `An adorable pet as an office worker in a modern corporate setting with warm, natural lighting and a polished, business-like atmosphere. The pet looks professional yet playful with natural proportions in a realistic style. Add minor office details like potted plants, soft bokeh background, and workplace décor for a lively corporate feel. Please generate one of the following scenes:
+1. The pet sitting at a desk stamping “APPROVED” on a document, wearing a subtle tie or collar.
+2. The pet wearing a headset while using a laptop during a virtual meeting, focused and attentive.
+3. The pet taking a coffee break, holding a paw-print mug next to a notebook on a wooden desk.
+4. The pet holding a red pen in its mouth, standing near a whiteboard with simple charts or paw-themed graphs, looking like it’s brainstorming.`,
     originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/pet_office/original.png',
     generatedImages: [
         'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/pet_office/0.png',
