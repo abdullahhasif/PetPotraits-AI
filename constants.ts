@@ -67,9 +67,13 @@ A pet framed chest-up, body wrapped in frayed white mummy bandages but face left
   {
     id: 'cinematic',
     name: 'Cinematic',
-    prompt: "The pet portrayed as a superhero, wearing a flowing red cape, looking heroically into the distance. The background is a dramatic, dark cityscape at night.",
-    originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/cinematic/original.png',
-    generatedImages: [
+    prompt: `A dramatic portrait of a pet as a movie star in a high-quality, cinematic scene with realistic lighting, detailed textures, and shallow depth of field. The image should look like a still from a blockbuster movie. Please generate one of the following scenes:
+1. The pet standing heroically on a rain-soaked city street at night, with glowing neon lights reflecting on the pavement.
+2. The pet posing like an adventurer on a windswept mountain peak at golden hour, with epic clouds in the background.
+3. The pet sitting in a dimly lit vintage theater with a spotlight overhead, surrounded by red velvet curtains.
+4. The pet running through an action-packed chase scene in a futuristic sci-fi cityscape, with motion blur for dynamic energy.`,
+    originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/cinematic_v2/original.png',
+   generatedImages: [
         'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/cinematic/0.png',
         'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/cinematic/1.png',
         'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/cinematic/2.png',
