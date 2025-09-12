@@ -38,10 +38,12 @@ export const ART_STYLES: ArtStyle[] = [
   {
     id: 'halloween',
     name: 'Halloween',
-    prompt: `A pet captured chest-up, face illuminated warmly by the glow of a carved jack-o-lantern placed just beside; golden-orange light casting dramatic shadows across the fur, while a blurred full moon and bats hover in the deep night sky behind. Bright, high-contrast cinematic lighting, ultra-detailed textures in fur and pumpkin surface.
-A pet seated close to the cauldron, chest and head in sharp focus, green light from bubbling potion casting bright highlights across fur and whiskers; blurred shelves of glowing bottles and crooked wooden beams fill the background. Cinematic close-up with bold contrast, magical yet playful atmosphere.
-A pet framed chest-up, wearing small red devil horns, face lit dramatically by warm, high-contrast light; compressed background like an 85mm portrait lens, showing blurred spooky details — twisted trees, glowing jack-o-lanterns, and faint mist curling in the distance. Cinematic close-up, sharp expression, dramatic yet playful Halloween atmosphere.
-A pet framed chest-up, body wrapped in frayed white mummy bandages but face left fully exposed with bright, expressive eyes; background shows the interior of an ancient stone tomb, hieroglyphs carved into the walls glowing faintly in the flicker of torchlight, dust motes hanging in the air. Cinematic contrast between warm orange torch glow and cool blue shadows, sharp detail on fur and cloth textures.`,
+    prompt: [
+        `A dog captured chest-up, face illuminated warmly by the glow of a carved jack-o-lantern placed just beside; golden-orange light casting dramatic shadows across the fur, while a blurred full moon and bats hover in the deep night sky behind. Bright, high-contrast cinematic lighting, ultra-detailed textures in fur and pumpkin surface.`,
+        `A dog seated close to the cauldron, chest and head in sharp focus, green light from bubbling potion casting bright highlights across fur and whiskers; blurred shelves of glowing bottles and crooked wooden beams fill the background. Cinematic close-up with bold contrast, magical yet playful atmosphere.`,
+        `A dog framed chest-up, wearing small red devil horns, face lit dramatically by warm, high-contrast light; compressed background like an 85mm portrait lens, showing blurred spooky details — twisted trees, glowing jack-o-lanterns, and faint mist curling in the distance. Cinematic close-up, sharp expression, dramatic yet playful Halloween atmosphere.`,
+        `A dog framed chest-up, body wrapped in frayed white mummy bandages but face left fully exposed with bright, expressive eyes; background shows the interior of an ancient stone tomb, hieroglyphs carved into the walls glowing faintly in the flicker of torchlight, dust motes hanging in the air. Cinematic contrast between warm orange torch glow and cool blue shadows, sharp detail on fur and cloth textures.`
+    ],
     originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/halloween_pet/original.png',
     generatedImages: [
         'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/halloween_pet/0.png',
