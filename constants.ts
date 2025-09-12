@@ -1,3 +1,4 @@
+
 import type { ArtStyle, ArtEffect, FrameStyle, ProductSize } from './types';
 
 export const ART_STYLES: ArtStyle[] = [
@@ -19,8 +20,12 @@ The pet chest-up leaning toward the counter, blow dryer in paw blasting upward, 
   {
     id: 'kitchen-tails',
     name: 'Kitchen tails',
-    prompt: "The pet as a chef, wearing a chef's hat and bandana, proudly presenting a pizza on a wooden board. The background is a warm, slightly blurred kitchen with cooking utensils.",
-    originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/chef_pet/original.png',
+    prompt: `A playful pet as a chef in a cozy kitchen setting with vibrant lighting, warm tones, and a whimsical, storybook-like atmosphere. The pet looks cheerful and expressive. Please generate one of the following scenes:
+1. The pet making a pizza at the counter, wearing a white chef hat and blue apron.
+2. The pet sitting happily with spaghetti on its head like hair, wearing a red heart bandana.
+3. The pet flipping a pancake in a pan, wearing a polka-dot bandana, in a kitchen action scene.
+4. The pet surrounded by colorful cupcakes and baking tools, dressed in a mini white chef coat.`,
+    originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/v1708443977/photo-to-art/kitchen/original.png',
     generatedImages: [
         'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/chef_pet/0.png',
         'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/chef_pet/1.png',
