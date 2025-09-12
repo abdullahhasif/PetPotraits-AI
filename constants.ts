@@ -5,10 +5,10 @@ export const ART_STYLES: ArtStyle[] = [
   {
     id: 'bath-time',
     name: 'Bath time',
-    prompt: `The pet in focus from the chest up inside a bathtub, head covered in foamy “bubble crown,” droplets clinging to the whiskers; blurred chrome fixtures and pastel tiles behind, rubber ducks floating just out of focus. Cinematic detail in bubbles and wet fur, playful and humorous.
-The pet chest-up with a fluffy pink towel wrapped around the head like a spa day, background pastel mint tiles; large bold text at the top: “WASH YOUR PAWS”.
-The pet chest-up with a pastel mint toothbrush clamped in the mouth, whiskers slightly lifted, eyes wide as if proud; background pastel green and yellow tiles, warm bathroom lights glowing in the blur. Crisp cinematic close-up with shiny details on fur and toothbrush bristles.
-The pet chest-up leaning toward the counter, blow dryer in paw blasting upward, fur flaring comically high like a rock star; pastel yellow walls and round vanity bulbs glowing behind, a pastel lavender towel draped on the counter. Bright cinematic lighting, exaggerated playful energy.`,
+    prompt: `A dog in focus from the chest up inside a bathtub, head covered in foamy “bubble crown,” droplets clinging to the whiskers; blurred chrome fixtures and pastel tiles behind, rubber ducks floating just out of focus. Cinematic detail in bubbles and wet fur, playful and humorous.
+A dog chest-up with a fluffy pink towel wrapped around the head like a spa day, background pastel mint tiles; large bold text at the top: “WASH YOUR PAWS”.
+A dog chest-up with a pastel mint toothbrush clamped in the mouth, whiskers slightly lifted, eyes wide as if proud; background pastel green and yellow tiles, warm bathroom lights glowing in the blur. Crisp cinematic close-up with shiny details on fur and toothbrush bristles.
+A dog chest-up leaning toward the counter, blow dryer in paw blasting upward, fur flaring comically high like a rock star; pastel yellow walls and round vanity bulbs glowing behind, a pastel lavender towel draped on the counter. Bright cinematic lighting, exaggerated playful energy.`,
     originalImage: 'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_400/photo-to-art/feed-previews/spa_pet/original.png',
     generatedImages: [
         'https://res.cloudinary.com/mixtiles/image/upload/f_auto,q_auto:good/c_scale,w_1200/photo-to-art/feed-previews/spa_pet/0.png',
