@@ -54,7 +54,7 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose, onCreationC
 
     setStep('loading');
     try {
-      const results = await generatePetPortraits(userImageFile, style.prompt);
+      const results = await generatePetPortraits(userImageFile, style);
       onCreationComplete(results.map(result => `data:image/png;base64,${result}`));
     } catch (error) {
       console.error(error);

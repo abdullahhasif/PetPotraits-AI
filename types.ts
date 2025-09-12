@@ -3,7 +3,7 @@ import type React from 'react';
 export interface ArtStyle {
   id: string;
   name: string;
-  prompt: string;
+  prompt: string | string[];
   originalImage: string;
   generatedImages: string[];
 }

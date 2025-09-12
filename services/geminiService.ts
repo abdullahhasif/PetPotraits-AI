@@ -1,4 +1,5 @@
 import { GoogleGenAI, Modality } from "@google/genai";
+import type { ArtStyle } from '../types';
 
 const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -16,7 +17,7 @@ const fileToBase64 = (file: File): Promise<string> => {
   });
 };
 
-export const generatePetPortraits = async (imageFile: File, prompt: string): Promise<string[]> => {
+export const generatePetPortraits = async (imageFile: File, style: ArtStyle): Promise<string[]> => {
   if (!process.env.API_KEY) {
     throw new Error("API_KEY environment variable is not set.");
   }
@@ -24,7 +25,7 @@ export const generatePetPortraits = async (imageFile: File, prompt: string): Pro
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const base64ImageData = await fileToBase64(imageFile);
 
-  const generateSingleImage = async (): Promise<string> => {
+  const generateSingleImage = async (prompt: string): Promise<string> => {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image-preview',
       contents: {
@@ -56,7 +57,18 @@ export const generatePetPortraits = async (imageFile: File, prompt: string): Pro
     throw new Error("The AI did not return an image. Please try again.");
   };
 
-  const generationPromises = Array(4).fill(0).map(() => generateSingleImage());
+  let generationPromises: Promise<string>[];
+
+  if (Array.isArray(style.prompt)) {
+    // If prompt is an array, generate one image for each prompt
+    generationPromises = style.prompt.map(p => generateSingleImage(p));
+  } else {
+    // If prompt is a string, generate 4 images with the same prompt
+    // FIX: The type of style.prompt is not correctly narrowed inside the closure.
+    // Assigning it to a new const variable ensures TypeScript infers the correct type.
+    const singlePrompt = style.prompt;
+    generationPromises = Array(4).fill(0).map(() => generateSingleImage(singlePrompt));
+  }
   
   return await Promise.all(generationPromises);
 };
