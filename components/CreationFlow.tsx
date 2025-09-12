@@ -151,7 +151,6 @@ const CreationFlow: React.FC<CreationFlowProps> = ({ style, onClose, onCreationC
   return (
     <div
       className="fixed inset-0 bg-zinc-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
